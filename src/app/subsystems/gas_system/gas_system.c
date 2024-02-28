@@ -17,7 +17,6 @@
  *                           Global Variables                                  *
  *******************************************************************************/
 DCMotor g_fan = {PORTB_ID, PIN4_ID};			/* Gas System Fan */
-uint8 g_threatFlag;
 
 /*******************************************************************************
  *                          Functions Definitions                              *

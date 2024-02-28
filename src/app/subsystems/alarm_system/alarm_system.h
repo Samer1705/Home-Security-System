@@ -8,6 +8,8 @@
 #ifndef SRC_APP_SUBSYSTEMS_ALARM_SYSTEM_ALARM_SYSTEM_H_
 #define SRC_APP_SUBSYSTEMS_ALARM_SYSTEM_ALARM_SYSTEM_H_
 
+#include "../../../common/std_types.h"
+
 /*******************************************************************************
  *                                Definitions                                  *
  *******************************************************************************/
@@ -15,6 +17,11 @@
 typedef enum{
 	FIRE_THREAT, GAS_THREAT, FLOOD_THREAT, MOTION_THREAT, PANIC_MODE
 }THREATS;
+
+/*******************************************************************************
+ *                           Global Variables                                  *
+ *******************************************************************************/
+extern uint8 g_threatFlag;
 
 /*******************************************************************************
  *                              Functions Prototypes                           *

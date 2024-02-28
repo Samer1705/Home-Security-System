@@ -17,7 +17,6 @@
  *                           Global Variables                                  *
  *******************************************************************************/
 DCMotor g_waterPump1 = {PORTD_ID, PIN4_ID};	/* Fire System Water Pump */
-uint8 g_threatFlag;
 
 /*******************************************************************************
  *                          Functions Definitions                              *

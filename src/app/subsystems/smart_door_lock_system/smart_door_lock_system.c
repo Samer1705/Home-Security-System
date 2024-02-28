@@ -5,7 +5,10 @@
  *  Author: Samer Sameh Lawindy
  *******************************************************************************/
 
+#include "smart_door_lock_system.h"
+
 #include <util/delay.h>
+
 #include "../../../common/std_types.h"
 #include "../../../hal/actuators/keypad.h"
 #include "../../../hal/actuators/lcd.h"
@@ -13,7 +16,6 @@
 #include "../../../mcal/atmega32_eeprom.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer2.h"
-
 
 /*******************************************************************************
  *                           Global Variables                                  *

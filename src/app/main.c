@@ -15,10 +15,6 @@
 #include "subsystems/smart_door_lock_system/smart_door_lock_system.h"
 #include "subsystems/water_flood_system/water_flood_system.h"
 
-
-
-
-
 /*******************************************************************************
  *                           Global Variables                                  *
  *******************************************************************************/
@@ -29,13 +25,12 @@ LED	g_testLED = {PORTD_ID, PIN7_ID};		/* Testing LED */
  *******************************************************************************/
 int main(void)
 {
-
+	ALARM_SYSTEM_Init();
 	FIRE_SYSTEM_Init();
 	GAS_SYSTEM_Init();
 	WATER_FLOOD_SYSTEM_Init();
 	MOTION_DETECTION_SYSTEM_Init();
 	SMART_DOOR_LOCK_SYSTEM_Init();
-	ALARM_SYSTEM_Init();
 
 	/* Enable Global Interrupt */
 	INTERRUPT_enable();
@@ -47,5 +42,6 @@ int main(void)
 	{
 		SMART_DOOR_LOCK_SYSTEM_Listener();
 		MOTION_DETECTION_SYSTEM_Listener();
+		ALARM_SYSTEM_Listener();
 	}
 }

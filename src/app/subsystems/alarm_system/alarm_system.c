@@ -5,11 +5,13 @@
  *  Author: Samer Sameh Lawindy
  *******************************************************************************/
 
+#include "alarm_system.h"
+
+#include "../../../common/std_types.h"
 #include "../../../hal/actuators/buzzer.h"
 #include "../../../hal/actuators/led.h"
-#include "../../../mcal/atmega32_timer0.h"
 #include "../../../mcal/atmega32_gpio.h"
-#include "alarm_system.h"
+#include "../../../mcal/atmega32_timer0.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -17,7 +19,7 @@
 Buzzer 	g_alarmBuzzer = {PORTB_ID, PIN0_ID};		/* Alarm Buzzer */
 LED		g_alarmLED = {PORTB_ID, PIN1_ID};		/* Alarm LED */
 uint8 	g_alarmTimerCount = 0;
-extern uint8 g_threatFlag = 0;
+uint8 g_threatFlag = 0;
 
 /*******************************************************************************
  *                          Functions Definitions                              *
