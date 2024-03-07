@@ -44,7 +44,7 @@ c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
 Allocating common symbols
 Common symbol       size              file
 
-g_actualPin         0x4               ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+g_enteredPin        0x4               ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
 
 Memory Configuration
 
@@ -177,7 +177,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x3aa4
+.text           0x00000000     0x3bf0
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
                 0x00000000                __vectors
@@ -518,77 +518,77 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.WATER_FLOOD_SYSTEM_Init
                 0x000033ea       0x24 ./src/app/subsystems/water_flood_system/water_flood_system.o
                 0x000033ea                WATER_FLOOD_SYSTEM_Init
- .text.LCDDelay
-                0x0000340e       0x24 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
- .text.doorLockInit
-                0x00003432       0x1a ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .text.setMode  0x0000340e       0x6c ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .text.setLcdDelay
+                0x0000347a       0x24 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
  .text.lcdDelayHandler
-                0x0000344c       0x68 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
- .text.pinCheck
-                0x000034b4       0x78 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x0000349e       0x6c ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .text.setPin   0x0000350a       0x72 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .text.getPin   0x0000357c       0x50 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .text.checkPin
+                0x000035cc       0x9a ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
  .text.inputKey
-                0x0000352c      0x13e ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
- .text.pinInit  0x0000366a       0x50 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x00003666      0x19e ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
  .text.SMART_DOOR_LOCK_SYSTEM_Init
-                0x000036ba       0x40 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x000036ba                SMART_DOOR_LOCK_SYSTEM_Init
+                0x00003804       0x42 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x00003804                SMART_DOOR_LOCK_SYSTEM_Init
  .text.SMART_DOOR_LOCK_SYSTEM_Listener
-                0x000036fa       0x2c ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x000036fa                SMART_DOOR_LOCK_SYSTEM_Listener
+                0x00003846       0x2c ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x00003846                SMART_DOOR_LOCK_SYSTEM_Listener
  .text.motionHandler
-                0x00003726       0x2c ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+                0x00003872       0x2c ./src/app/subsystems/motion_detection_system/motion_detection_system.o
  .text.MOTION_DETECTION_SYSTEM_Init
-                0x00003752       0x12 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
-                0x00003752                MOTION_DETECTION_SYSTEM_Init
+                0x0000389e       0x12 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+                0x0000389e                MOTION_DETECTION_SYSTEM_Init
  .text.MOTION_DETECTION_SYSTEM_Listener
-                0x00003764       0x12 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
-                0x00003764                MOTION_DETECTION_SYSTEM_Listener
+                0x000038b0       0x12 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+                0x000038b0                MOTION_DETECTION_SYSTEM_Listener
  .text.gasHandler
-                0x00003776       0x56 ./src/app/subsystems/gas_system/gas_system.o
-                0x00003776                gasHandler
+                0x000038c2       0x56 ./src/app/subsystems/gas_system/gas_system.o
+                0x000038c2                gasHandler
  .text.GAS_SYSTEM_Init
-                0x000037cc       0x24 ./src/app/subsystems/gas_system/gas_system.o
-                0x000037cc                GAS_SYSTEM_Init
+                0x00003918       0x24 ./src/app/subsystems/gas_system/gas_system.o
+                0x00003918                GAS_SYSTEM_Init
  .text.fireHandler
-                0x000037f0       0x40 ./src/app/subsystems/fire_system/fire_system.o
+                0x0000393c       0x40 ./src/app/subsystems/fire_system/fire_system.o
  .text.FIRE_SYSTEM_Init
-                0x00003830       0x24 ./src/app/subsystems/fire_system/fire_system.o
-                0x00003830                FIRE_SYSTEM_Init
+                0x0000397c       0x24 ./src/app/subsystems/fire_system/fire_system.o
+                0x0000397c                FIRE_SYSTEM_Init
  .text.alarmHandler
-                0x00003854       0x4e ./src/app/subsystems/alarm_system/alarm_system.o
- .text.alarmOn  0x000038a2       0x12 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x000039a0       0x4e ./src/app/subsystems/alarm_system/alarm_system.o
+ .text.alarmOn  0x000039ee       0x12 ./src/app/subsystems/alarm_system/alarm_system.o
  .text.alarmOff
-                0x000038b4       0x26 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x00003a00       0x26 ./src/app/subsystems/alarm_system/alarm_system.o
  .text.ALARM_SYSTEM_Init
-                0x000038da       0x30 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x000038da                ALARM_SYSTEM_Init
+                0x00003a26       0x30 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x00003a26                ALARM_SYSTEM_Init
  .text.ALARM_SYSTEM_Listener
-                0x0000390a       0x20 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x0000390a                ALARM_SYSTEM_Listener
- .text.main     0x0000392a       0x3a ./src/app/main.o
-                0x0000392a                main
- .text.libgcc   0x00003964       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x00003964                __udivmodsi4
- .text.libgcc   0x000039a8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x000039a8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x000039a8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x000039a8       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x000039a8                __prologue_saves__
- .text.libgcc   0x000039e0       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x000039e0                __epilogue_restores__
+                0x00003a56       0x20 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x00003a56                ALARM_SYSTEM_Listener
+ .text.main     0x00003a76       0x3a ./src/app/main.o
+                0x00003a76                main
+ .text.libgcc   0x00003ab0       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00003ab0                __udivmodsi4
+ .text.libgcc   0x00003af4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00003af4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00003af4        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00003af4       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00003af4                __prologue_saves__
+ .text.libgcc   0x00003b2c       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x00003b2c                __epilogue_restores__
  .text.avr-libc
-                0x00003a16       0x42 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
-                0x00003a16                itoa
+                0x00003b62       0x42 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
+                0x00003b62                itoa
  .text.avr-libc
-                0x00003a58       0x20 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
-                0x00003a58                strrev
- .text.libgcc   0x00003a78       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
-                0x00003a78                __udivmodhi4
-                0x00003aa0                . = ALIGN (0x2)
+                0x00003ba4       0x20 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
+                0x00003ba4                strrev
+ .text.libgcc   0x00003bc4       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x00003bc4                __udivmodhi4
+                0x00003bec                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00003aa0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00003aa0                exit
-                0x00003aa0                _exit
+ .fini9         0x00003bec        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00003bec                exit
+                0x00003bec                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -607,11 +607,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00003aa0        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00003bec        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00003aa4                _etext = .
+                0x00003bf0                _etext = .
 
-.data           0x00800060       0x3e load address 0x00003aa4
+.data           0x00800060       0x76 load address 0x00003bf0
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
@@ -632,154 +632,156 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .data          0x00800060        0x0 ./src/hal/actuators/led.o
  .data          0x00800060        0x0 ./src/hal/actuators/solenoid_lock.o
  .data          0x00800060        0x0 ./src/app/subsystems/water_flood_system/water_flood_system.o
- .data          0x00800060       0x28 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
- .data          0x00800088        0x0 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
- .data          0x00800088        0x0 ./src/app/subsystems/gas_system/gas_system.o
- .data          0x00800088        0x0 ./src/app/subsystems/fire_system/fire_system.o
- .data          0x00800088        0x0 ./src/app/subsystems/alarm_system/alarm_system.o
- .data          0x00800088        0x0 ./src/app/main.o
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_addsub_sf.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mul_sf.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_gt_sf.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ge_sf.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_lt_sf.o)
- .data          0x00800088        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_sf_to_si.o)
- .data          0x00800088        0x8 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_thenan_sf.o)
-                0x00800088                __thenan_sf
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_pack_sf.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_unpack_sf.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fpcmp_parts_sf.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
- .data          0x00800090        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x00800060       0x60 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .data          0x008000c0        0x0 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+ .data          0x008000c0        0x0 ./src/app/subsystems/gas_system/gas_system.o
+ .data          0x008000c0        0x0 ./src/app/subsystems/fire_system/fire_system.o
+ .data          0x008000c0        0x0 ./src/app/subsystems/alarm_system/alarm_system.o
+ .data          0x008000c0        0x0 ./src/app/main.o
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_addsub_sf.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mul_sf.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_gt_sf.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ge_sf.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_lt_sf.o)
+ .data          0x008000c0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_sf_to_si.o)
+ .data          0x008000c0        0x8 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_thenan_sf.o)
+                0x008000c0                __thenan_sf
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_pack_sf.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_unpack_sf.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fpcmp_parts_sf.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .data          0x008000c8        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
  *(.data*)
  .data.g_waterPump2
-                0x00800090        0x2 ./src/app/subsystems/water_flood_system/water_flood_system.o
-                0x00800090                g_waterPump2
- .data.g_lock   0x00800092        0x2 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x00800092                g_lock
- .data.g_fan    0x00800094        0x2 ./src/app/subsystems/gas_system/gas_system.o
-                0x00800094                g_fan
+                0x008000c8        0x2 ./src/app/subsystems/water_flood_system/water_flood_system.o
+                0x008000c8                g_waterPump2
+ .data.g_lock   0x008000ca        0x2 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000ca                g_lock
+ .data.g_fan    0x008000cc        0x2 ./src/app/subsystems/gas_system/gas_system.o
+                0x008000cc                g_fan
  .data.g_waterPump1
-                0x00800096        0x2 ./src/app/subsystems/fire_system/fire_system.o
-                0x00800096                g_waterPump1
+                0x008000ce        0x2 ./src/app/subsystems/fire_system/fire_system.o
+                0x008000ce                g_waterPump1
  .data.g_alarmBuzzer
-                0x00800098        0x2 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x00800098                g_alarmBuzzer
+                0x008000d0        0x2 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x008000d0                g_alarmBuzzer
  .data.g_alarmLED
-                0x0080009a        0x2 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x0080009a                g_alarmLED
+                0x008000d2        0x2 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x008000d2                g_alarmLED
  .data.g_testLED
-                0x0080009c        0x2 ./src/app/main.o
-                0x0080009c                g_testLED
+                0x008000d4        0x2 ./src/app/main.o
+                0x008000d4                g_testLED
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0080009e                . = ALIGN (0x2)
-                0x0080009e                _edata = .
-                0x0080009e                PROVIDE (__data_end, .)
+                0x008000d6                . = ALIGN (0x2)
+                0x008000d6                _edata = .
+                0x008000d6                PROVIDE (__data_end, .)
 
-.bss            0x0080009e       0x1b
-                0x0080009e                PROVIDE (__bss_start, .)
+.bss            0x008000d6       0x1c
+                0x008000d6                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_eeprom.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_gpio.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_interrupt.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_timer0.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_timer2.o
- .bss           0x0080009e        0x0 ./src/mcal/atmega32_uart.o
- .bss           0x0080009e        0x0 ./src/hal/sensors/flame_sensor.o
- .bss           0x0080009e        0x0 ./src/hal/sensors/mq9_sensor.o
- .bss           0x0080009e        0x0 ./src/hal/sensors/pir_sensor.o
- .bss           0x0080009e        0x0 ./src/hal/sensors/water_sensor.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/buzzer.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/dc_motor.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/keypad.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/lcd.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/led.o
- .bss           0x0080009e        0x0 ./src/hal/actuators/solenoid_lock.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/water_flood_system/water_flood_system.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/gas_system/gas_system.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/fire_system/fire_system.o
- .bss           0x0080009e        0x0 ./src/app/subsystems/alarm_system/alarm_system.o
- .bss           0x0080009e        0x0 ./src/app/main.o
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_addsub_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mul_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_gt_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ge_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_lt_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_sf_to_si.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_thenan_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_pack_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_unpack_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fpcmp_parts_sf.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
- .bss           0x0080009e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_eeprom.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_gpio.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_interrupt.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_timer0.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_timer2.o
+ .bss           0x008000d6        0x0 ./src/mcal/atmega32_uart.o
+ .bss           0x008000d6        0x0 ./src/hal/sensors/flame_sensor.o
+ .bss           0x008000d6        0x0 ./src/hal/sensors/mq9_sensor.o
+ .bss           0x008000d6        0x0 ./src/hal/sensors/pir_sensor.o
+ .bss           0x008000d6        0x0 ./src/hal/sensors/water_sensor.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/buzzer.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/dc_motor.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/keypad.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/lcd.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/led.o
+ .bss           0x008000d6        0x0 ./src/hal/actuators/solenoid_lock.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/water_flood_system/water_flood_system.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/gas_system/gas_system.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/fire_system/fire_system.o
+ .bss           0x008000d6        0x0 ./src/app/subsystems/alarm_system/alarm_system.o
+ .bss           0x008000d6        0x0 ./src/app/main.o
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fixunssfsi.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_addsub_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mul_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_gt_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_ge_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_lt_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_sf_to_si.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_thenan_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_pack_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_unpack_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_fpcmp_parts_sf.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(itoa.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5\libc.a(strrev.o)
+ .bss           0x008000d6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
  *(.bss*)
  .bss.g_callBackPtrInt0
-                0x0080009e        0x2 ./src/mcal/atmega32_interrupt.o
+                0x008000d6        0x2 ./src/mcal/atmega32_interrupt.o
  .bss.g_callBackPtrInt1
-                0x008000a0        0x2 ./src/mcal/atmega32_interrupt.o
+                0x008000d8        0x2 ./src/mcal/atmega32_interrupt.o
  .bss.g_callBackPtrInt2
-                0x008000a2        0x2 ./src/mcal/atmega32_interrupt.o
+                0x008000da        0x2 ./src/mcal/atmega32_interrupt.o
  .bss.g_callBackPtrOVF0
-                0x008000a4        0x2 ./src/mcal/atmega32_timer0.o
- .bss.g_clock   0x008000a6        0x1 ./src/mcal/atmega32_timer0.o
+                0x008000dc        0x2 ./src/mcal/atmega32_timer0.o
+ .bss.g_clock   0x008000de        0x1 ./src/mcal/atmega32_timer0.o
  .bss.g_callBackPtrOVF2
-                0x008000a7        0x2 ./src/mcal/atmega32_timer2.o
- .bss.g_clock   0x008000a9        0x1 ./src/mcal/atmega32_timer2.o
+                0x008000df        0x2 ./src/mcal/atmega32_timer2.o
+ .bss.g_clock   0x008000e1        0x1 ./src/mcal/atmega32_timer2.o
  .bss.g_lcdTimerCount
-                0x008000aa        0x2 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000aa                g_lcdTimerCount
- .bss.g_givenPin
-                0x008000ac        0x4 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000ac                g_givenPin
+                0x008000e2        0x2 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000e2                g_lcdTimerCount
+ .bss.g_correctPin
+                0x008000e4        0x4 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000e4                g_correctPin
+ .bss.g_mode    0x008000e8        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000e8                g_mode
  .bss.g_pinCount
-                0x008000b0        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000b0                g_pinCount
+                0x008000e9        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000e9                g_pinCount
  .bss.g_lcdDelay
-                0x008000b1        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000b1                g_lcdDelay
+                0x008000ea        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000ea                g_lcdDelay
  .bss.g_lcdDelayFlag
-                0x008000b2        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000b2                g_lcdDelayFlag
+                0x008000eb        0x1 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000eb                g_lcdDelayFlag
  .bss.g_alarmTimerCount
-                0x008000b3        0x1 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x008000b3                g_alarmTimerCount
+                0x008000ec        0x1 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x008000ec                g_alarmTimerCount
  .bss.g_threatFlag
-                0x008000b4        0x1 ./src/app/subsystems/alarm_system/alarm_system.o
-                0x008000b4                g_threatFlag
+                0x008000ed        0x1 ./src/app/subsystems/alarm_system/alarm_system.o
+                0x008000ed                g_threatFlag
  *(COMMON)
- COMMON         0x008000b5        0x4 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                0x008000b5                g_actualPin
-                0x008000b9                PROVIDE (__bss_end, .)
-                0x00003aa4                __data_load_start = LOADADDR (.data)
-                0x00003ae2                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x008000ee        0x4 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                0x008000ee                g_enteredPin
+                0x008000f2                PROVIDE (__bss_end, .)
+                0x00003bf0                __data_load_start = LOADADDR (.data)
+                0x00003c66                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008000b9        0x0
-                0x008000b9                PROVIDE (__noinit_start, .)
+.noinit         0x008000f2        0x0
+                0x008000f2                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008000b9                PROVIDE (__noinit_end, .)
-                0x008000b9                _end = .
-                0x008000b9                PROVIDE (__heap_start, .)
+                0x008000f2                PROVIDE (__noinit_end, .)
+                0x008000f2                _end = .
+                0x008000f2                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -797,7 +799,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x5418
+.stab           0x00000000     0x561c
  *(.stab)
  .stab          0x00000000      0x45c ./src/mcal/atmega32_eeprom.o
  .stab          0x0000045c      0x504 ./src/mcal/atmega32_gpio.o
@@ -832,22 +834,22 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                                 0x2a0 (size before relaxing)
  .stab          0x00003ac8      0x30c ./src/app/subsystems/water_flood_system/water_flood_system.o
                                 0x318 (size before relaxing)
- .stab          0x00003dd4      0x6e4 ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
-                                0x87c (size before relaxing)
- .stab          0x000044b8      0x264 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
+ .stab          0x00003dd4      0x8dc ./src/app/subsystems/smart_door_lock_system/smart_door_lock_system.o
+                                0xa74 (size before relaxing)
+ .stab          0x000046b0      0x264 ./src/app/subsystems/motion_detection_system/motion_detection_system.o
                                 0x270 (size before relaxing)
- .stab          0x0000471c      0x300 ./src/app/subsystems/gas_system/gas_system.o
+ .stab          0x00004914      0x300 ./src/app/subsystems/gas_system/gas_system.o
                                 0x30c (size before relaxing)
- .stab          0x00004a1c      0x300 ./src/app/subsystems/fire_system/fire_system.o
+ .stab          0x00004c14      0x300 ./src/app/subsystems/fire_system/fire_system.o
                                 0x30c (size before relaxing)
- .stab          0x00004d1c      0x438 ./src/app/subsystems/alarm_system/alarm_system.o
+ .stab          0x00004f14      0x438 ./src/app/subsystems/alarm_system/alarm_system.o
                                 0x444 (size before relaxing)
- .stab          0x00005154      0x2c4 ./src/app/main.o
-                                0x2f4 (size before relaxing)
+ .stab          0x0000534c      0x2d0 ./src/app/main.o
+                                0x324 (size before relaxing)
 
-.stabstr        0x00000000     0x2dc4
+.stabstr        0x00000000     0x2e69
  *(.stabstr)
- .stabstr       0x00000000     0x2dc4 ./src/mcal/atmega32_eeprom.o
+ .stabstr       0x00000000     0x2e69 ./src/mcal/atmega32_eeprom.o
 
 .stab.excl
  *(.stab.excl)

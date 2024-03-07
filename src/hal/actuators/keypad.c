@@ -83,9 +83,10 @@ uint8 KEYPAD_getPressedKey(void)
 #endif
 			}
 		}
+		//		_delay_ms(5000);
 		//		GPIO_setupPinDirection(KEYPAD_ROW_PORT_ID,KEYPAD_FIRST_ROW_PIN_ID+row,PIN_INPUT);
 		GPIO_writePin(KEYPAD_ROW_PORT_ID, KEYPAD_FIRST_ROW_PIN_ID+row, KEYPAD_BUTTON_RELEASED);
-		_delay_ms(5); /* Add small delay to fix CPU load issue in proteus */
+		_delay_ms(10); /* Add small delay to fix CPU load issue in proteus */
 	}
 	return KEYPAD_NO_PRESS;
 }
