@@ -16,7 +16,6 @@
 #include "../../../mcal/atmega32_eeprom.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer2.h"
-#include "C:/WinAVR-20100110/avr/include/util/delay.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -25,21 +24,20 @@ SolenoidLock g_lock = {PORTC_ID, PIN7_ID};		/* Door Lock */
 uint16 	g_lcdTimerCount = 0;
 uint8 g_enteredPin[4],
 		g_correctPin[4] = {0, 0, 0, 0},
-		g_mode = NORMAL,
 		g_pinCount = 0,
 		g_lcdDelay = 0,
 		g_lcdDelayFlag = 0;
+PinMode g_mode = NORMAL;
 
 /*******************************************************************************
  *                          Functions Definitions                              *
  *******************************************************************************/
 
-static void setMode(uint8 mode)
+static void setLCD()
 {
 	g_pinCount = 0;
-	g_mode = mode;
 	LCD_clearScreen();
-	switch(mode)
+	switch(g_mode)
 	{
 	case OLD:
 		LCD_displayString("Enter Old Pin:");
@@ -70,31 +68,33 @@ static void lcdDelayHandler()
 		TIMER2_off();
 		g_lcdDelayFlag = 0;
 		g_lcdTimerCount = 0;
-		setMode(g_mode);
+		setLCD();
 	}
 }
 
 static void setPin()
 {
 	uint8 i;
-	g_pinCount = 0;
 	EEPROM_write(0x000, 1);
 	for(i = 0; i < 4; i++)
 	{
 		EEPROM_write(i+1, g_enteredPin[i]);
 		g_correctPin[i] = g_enteredPin[i];
 	}
-	setMode(NORMAL);
+	g_pinCount = 0;
+	g_mode = NORMAL;
+	setLCD();
 }
 
 static void getPin()
 {
-	uint8 i;
-	if(EEPROM_read(0x000) == 1)
+	uint8 pinChanged = EEPROM_read(0x000);
+	if(pinChanged == 1)
 	{
+		uint8 i;
 		for(i = 1; i <= 4; i++)
 		{
-			g_correctPin[i] = EEPROM_read(i);
+			g_correctPin[i-1] = EEPROM_read(i);
 		}
 	}
 }
@@ -111,7 +111,8 @@ static void checkPin()
 	{
 		if(g_mode == OLD)
 		{
-			setMode(NEW);
+			g_mode = NEW;
+			setLCD();
 		}
 		else
 		{
@@ -159,10 +160,12 @@ static void inputKey(uint8 key)
 		switch(g_mode)
 		{
 		case NORMAL:
-			setMode(OLD);
+			g_mode = OLD;
+			setLCD();
 			break;
 		default:
-			setMode(NORMAL);
+			g_mode = NORMAL;
+			setLCD();
 			break;
 		}
 	}
@@ -185,7 +188,7 @@ void SMART_DOOR_LOCK_SYSTEM_Init()
 	SOLENOID_init(&g_lock);
 	SOLENOID_on(&g_lock);
 	getPin();
-	setMode(NORMAL);
+	setLCD();
 
 	/* Initialize Timer2 */
 	TIMER2_init(TMR2_1024);

@@ -13,8 +13,48 @@
 #include "atmega32_uart.h"
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #include "../common/common_macros.h" /* To use the macros like SET_BIT */
+
+/*******************************************************************************
+ *                           Global Variables                                  *
+ *******************************************************************************/
+
+/* Global variables to hold the addresses of the call back functions in the application */
+static volatile void (*g_callBackPtrUDR)(void) = NULL_PTR;
+static volatile void (*g_callBackPtrTX)(void) = NULL_PTR;
+static volatile void (*g_callBackPtrRX)(void) = NULL_PTR;
+
+/*******************************************************************************
+ *                          ISR's Definitions                                  *
+ *******************************************************************************/
+ISR(USART_UDRE_vect)
+{
+	if(g_callBackPtrUDR != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtrUDR)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
+
+ISR(USART_TXC_vect)
+{
+	if(g_callBackPtrTX != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtrTX)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
+
+ISR(USART_RXC_vect)
+{
+	if(g_callBackPtrRX != NULL_PTR)
+		{
+			/* Call the Call Back function in the application after the edge is detected */
+			(*g_callBackPtrRX)(); /* another method to call the function using pointer to function g_callBackPtr(); */
+		}
+}
 
 /*******************************************************************************
  *                      Functions Definitions                                  *
@@ -27,42 +67,41 @@
  * 2. Enable the UART.
  * 3. Setup the UART baud rate.
  */
-void UART_init(uint32 baud_rate)
+void UART_init(const UART_ConfigType *config_Ptr)
 {
 	uint16 ubrr_value = 0;
 
 	/* U2X = 1 for double transmission speed */
 	UCSRA = (1<<U2X);
-
 	/************************** UCSRB Description **************************
 	 * RXCIE = 0 Disable USART RX Complete Interrupt Enable
 	 * TXCIE = 0 Disable USART Tx Complete Interrupt Enable
 	 * UDRIE = 0 Disable USART Data Register Empty Interrupt Enable
 	 * RXEN  = 1 Receiver Enable
 	 * RXEN  = 1 Transmitter Enable
-	 * UCSZ2 = 0 For 8-bit data mode
-	 * RXB8 & TXB8 not used for 8-bit data mode
+	 * RXB8 & TXB8 not used as we are not using 9-bit mode
 	 ***********************************************************************/
 	UCSRB = (1<<RXEN) | (1<<TXEN);
 
 	/************************** UCSRC Description **************************
 	 * URSEL   = 1 The URSEL must be one when writing the UCSRC
 	 * UMSEL   = 0 Asynchronous Operation
-	 * UPM1:0  = 00 Disable parity bit
-	 * USBS    = 0 One stop bit
-	 * UCSZ1:0 = 11 For 8-bit data mode
+	 * UPM1:0  = configure parity as desired
+	 * USBS    = configure stop bits as desired
+	 * UCSZ1:0 = configure bit data as desired
 	 * UCPOL   = 0 Used with the Synchronous operation only
 	 ***********************************************************************/
-	UCSRC = (1<<URSEL) | (1<<UCSZ0) | (1<<UCSZ1);
-
+	UCSRC = (1<<URSEL) ;
+	UCSRC = (UCSRC&0xCF)|((config_Ptr->parity)<<UPM0);
+	UCSRC = (UCSRC&0xF7)|((config_Ptr->stop_bit)<<USBS);
+	UCSRC = (UCSRC&0xF9)|((config_Ptr->bit_data)<<UCSZ0);
 	/* Calculate the UBRR register value */
-	ubrr_value = (uint16)(((F_CPU / (baud_rate * 8UL))) - 1);
+	ubrr_value = (uint16)(((F_CPU / (config_Ptr->baud_rate * 8UL))) - 1);
 
 	/* First 8 bits from the BAUD_PRESCALE inside UBRRL and last 4 bits in UBRRH*/
 	UBRRH = ubrr_value>>8;
 	UBRRL = ubrr_value;
 }
-
 /*
  * Description :
  * Functional responsible for send byte to another UART device.
@@ -92,7 +131,7 @@ void UART_sendByte(const uint8 data)
  * Description :
  * Functional responsible for receive byte from another UART device.
  */
-uint8 UART_recieveByte(void)
+uint8 UART_receiveByte(void)
 {
 	/* RXC flag is set when the UART receive data so wait until this flag is set to one */
 	while(BIT_IS_CLEAR(UCSRA,RXC));
@@ -136,15 +175,54 @@ void UART_receiveString(uint8 *Str)
 	uint8 i = 0;
 
 	/* Receive the first byte */
-	Str[i] = UART_recieveByte();
+	Str[i] = UART_receiveByte();
 
 	/* Receive the whole string until the '#' */
 	while(Str[i] != '#')
 	{
 		i++;
-		Str[i] = UART_recieveByte();
+		Str[i] = UART_receiveByte();
 	}
 
 	/* After receiving the whole string plus the '#', replace the '#' with '\0' */
 	Str[i] = '\0';
+}
+
+void UART_sendData(const uint8 *pData, uint32 uSize)
+{
+    uint32 uCounter;
+    for(uCounter = 0; uCounter < uSize; uCounter++)
+    {
+        UART_sendByte(pData[uCounter]);
+    }
+}
+
+void UART_receiveData(uint8 *pData, uint32 uSize)
+{
+    uint32 uCounter;
+    for(uCounter = 0; uCounter < uSize; uCounter++)
+    {
+        pData[uCounter] = UART_receiveByte();
+    }
+}
+
+void UART_interruptEnable(IntEn intType)
+{
+	UCSRB &= 0x1F;
+	UCSRB |= (intType << UDRIE);
+}
+
+void UART_setCallBackUDR(void(*a_ptr)(void))
+{
+	g_callBackPtrUDR = a_ptr;
+}
+
+void UART_setCallBackTX(void(*a_ptr)(void))
+{
+	g_callBackPtrTX = a_ptr;
+}
+
+void UART_setCallBackRX(void(*a_ptr)(void))
+{
+	g_callBackPtrRX = a_ptr;
 }
