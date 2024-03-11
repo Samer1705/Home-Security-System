@@ -22,11 +22,11 @@
  *******************************************************************************/
 SolenoidLock g_lock = {PORTC_ID, PIN7_ID};		/* Door Lock */
 uint16 	g_lcdTimerCount = 0;
-uint8 g_enteredPin[4],
-		g_correctPin[4] = {0, 0, 0, 0},
-		g_pinCount = 0,
-		g_lcdDelay = 0,
-		g_lcdDelayFlag = 0;
+uint8 	g_enteredPin[4],
+g_correctPin[4] = {0, 0, 0, 0},
+g_pinCount = 0,
+g_lcdDelay = 0,
+g_lcdDelayFlag = 0;
 PinMode g_mode = NORMAL;
 
 /*******************************************************************************
