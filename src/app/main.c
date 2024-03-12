@@ -26,15 +26,6 @@ LED	g_testLED = {PORTD_ID, PIN7_ID};		/* Testing LED */
  *******************************************************************************/
 int main(void)
 {
-	/* Configure & Initialize UART */
-	UART_ConfigType uartConfig = {
-		UART_9BIT,
-		PARITY_ENABLE,
-		UART_1_STOP_BIT,
-		9600
-	};
-	UART_init(&uartConfig);
-
 	/* Initialize Sub Systems */
 	ALARM_SYSTEM_Init();
 	FIRE_SYSTEM_Init();

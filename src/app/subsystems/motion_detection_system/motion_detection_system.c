@@ -8,6 +8,7 @@
 #include "motion_detection_system.h"
 
 #include "../../../hal/sensors/pir_sensor.h"
+#include "../../communication.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
@@ -18,10 +19,12 @@ static void motionHandler()
 	if(PIR_read())
 	{
 		g_threatFlag |= (1<<MOTION_THREAT);
+		Comm_HandleSend(MOTION_TRIGGERED);
 	}
 	else
 	{
 		g_threatFlag &= ~(1<<MOTION_THREAT);
+		Comm_HandleSend(MOTION_HANDLED);
 	}
 }
 

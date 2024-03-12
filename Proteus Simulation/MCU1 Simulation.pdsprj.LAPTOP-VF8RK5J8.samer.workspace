@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <WORKSPACE>
- <FRAME activewindow="0">
+ <FRAME activewindow="1">
   <PLACEMENT>2c0000000200000003000000ffffffffffffffffffffffffffffffff0000000018000000d0050000fc030000</PLACEMENT>
   <WINDOW type="default" module="ISIS"/>
   <WINDOW type="default" module="STARTUP"/>
@@ -33,7 +33,7 @@
      <ITEM name="nItems">0</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="30" x="88" flags="00000008" y="200" h="16" pid="3" iid="2">
+   <POPUP w="258" x="88" flags="00000008" y="200" h="255" pid="3" iid="2">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="8" x="108" flags="0000000a" y="220" h="1" pid="10" iid="2">
@@ -96,7 +96,7 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="30" x="228" flags="00000008" y="340" h="16" pid="3" iid="4">
+   <POPUP w="258" x="228" flags="00000008" y="340" h="255" pid="3" iid="4">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="8" x="248" flags="0000000a" y="360" h="1" pid="10" iid="4">
@@ -159,7 +159,7 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="30" x="368" flags="00000008" y="480" h="16" pid="3" iid="1">
+   <POPUP w="258" x="368" flags="00000008" y="480" h="255" pid="3" iid="1">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="8" x="388" flags="0000000a" y="500" h="1" pid="10" iid="1">
@@ -222,7 +222,7 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="30" x="508" flags="00000008" y="620" h="16" pid="3" iid="6">
+   <POPUP w="258" x="508" flags="00000008" y="620" h="255" pid="3" iid="6">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="8" x="528" flags="0000000a" y="640" h="1" pid="10" iid="6">
@@ -285,7 +285,7 @@
      <ITEM name="TopLineAddress">00000020</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="52" x="648" flags="00000008" y="760" h="12" pid="3" iid="8">
+   <POPUP w="434" x="648" flags="00000008" y="760" h="203" pid="3" iid="8">
     <PROPERTIES/>
    </POPUP>
    <POPUP w="16" x="668" flags="0000000a" y="780" h="32" pid="7" iid="8">
@@ -348,7 +348,7 @@
      <ITEM name="TopLineAddress">00300000</ITEM>
     </PROPERTIES>
    </POPUP>
-   <POPUP w="18" x="788" flags="00000008" y="557" h="32" pid="10" iid="8">
+   <POPUP w="162" x="788" flags="00000008" y="557" h="463" pid="10" iid="8">
     <PROPERTIES>
      <ITEM name="DataType">2</ITEM>
      <ITEM name="DispChars">Yes</ITEM>

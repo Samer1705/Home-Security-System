@@ -9,6 +9,8 @@ src/app/subsystems/gas_system/gas_system.o \
   ../src/app/subsystems/gas_system/../../../mcal/atmega32_gpio.h \
   ../src/app/subsystems/gas_system/../../../mcal/../common/std_types.h \
   ../src/app/subsystems/gas_system/../../../mcal/atmega32_interrupt.h \
+  ../src/app/subsystems/gas_system/../../communication.h \
+  ../src/app/subsystems/gas_system/../../../common/std_types.h \
   ../src/app/subsystems/gas_system/../alarm_system/alarm_system.h \
   ../src/app/subsystems/gas_system/../alarm_system/../../../common/std_types.h
 
@@ -27,6 +29,10 @@ src/app/subsystems/gas_system/gas_system.o \
 ../src/app/subsystems/gas_system/../../../mcal/../common/std_types.h:
 
 ../src/app/subsystems/gas_system/../../../mcal/atmega32_interrupt.h:
+
+../src/app/subsystems/gas_system/../../communication.h:
+
+../src/app/subsystems/gas_system/../../../common/std_types.h:
 
 ../src/app/subsystems/gas_system/../alarm_system/alarm_system.h:
 

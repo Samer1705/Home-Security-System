@@ -11,6 +11,7 @@
 #include "../../../hal/sensors/flame_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
+#include "../../communication.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
@@ -27,11 +28,13 @@ static void fireHandler()
 	{
 		DCMOTOR_on(&g_waterPump1);
 		g_threatFlag |= (1<<FIRE_THREAT);
+		Comm_HandleSend(FIRE_TRIGGERED);
 	}
 	else
 	{
 		DCMOTOR_off(&g_waterPump1);
 		g_threatFlag &= ~(1<<FIRE_THREAT);
+		Comm_HandleSend(FIRE_HANDLED);
 	}
 	gasHandler();
 }

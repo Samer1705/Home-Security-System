@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../src/app/communication.c \
 ../src/app/main.c 
 
 OBJS += \
+./src/app/communication.o \
 ./src/app/main.o 
 
 C_DEPS += \
+./src/app/communication.d \
 ./src/app/main.d 
 
 
