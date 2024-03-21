@@ -108,6 +108,7 @@ void setMode(PinMode mode, uint8 quickMsg) {
 		break;
 	}
 	LCD_moveCursor(1, 0);
+	g_pinCount = 0;
 }
 
 static void lcdDelayHandler() {
