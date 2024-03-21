@@ -21,3 +21,8 @@ void SOLENOID_off(SolenoidLock* lock)
 {
 	GPIO_writePin(lock->portID, lock->pinID, LOGIC_LOW);
 }
+uint8 SOLENOID_read(SolenoidLock* lock)
+{
+	return GPIO_readPin(lock->portID, lock->pinID);
+}
+

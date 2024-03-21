@@ -24,5 +24,6 @@ typedef struct{
 void SOLENOID_init(SolenoidLock* lock);
 void SOLENOID_on(SolenoidLock* lock);
 void SOLENOID_off(SolenoidLock* lock);
+uint8 SOLENOID_read(SolenoidLock* lock);
 
 #endif /* SRC_HAL_ACTUATORS_SOLENOID_LOCK_H_ */

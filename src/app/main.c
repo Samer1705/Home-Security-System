@@ -8,7 +8,7 @@
 #include "../hal/actuators/led.h"
 #include "../mcal/atmega32_gpio.h"
 #include "../mcal/atmega32_interrupt.h"
-#include "../mcal/atmega32_uart.h"
+#include "communication.h"
 #include "subsystems/alarm_system/alarm_system.h"
 #include "subsystems/fire_system/fire_system.h"
 #include "subsystems/gas_system/gas_system.h"
@@ -26,6 +26,9 @@ LED	g_testLED = {PORTD_ID, PIN7_ID};		/* Testing LED */
  *******************************************************************************/
 int main(void)
 {
+
+	Comm_Init();
+
 	/* Initialize Sub Systems */
 	ALARM_SYSTEM_Init();
 	FIRE_SYSTEM_Init();

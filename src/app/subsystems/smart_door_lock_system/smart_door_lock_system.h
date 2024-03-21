@@ -12,7 +12,7 @@
  *                               Types Declaration                             *
  *******************************************************************************/
 typedef enum{
-	NORMAL, OLD, NEW
+	NORMAL_LOCKED, NORMAL_UNLOCKED, CHANGE_OLD, CHANGE_NEW
 }PinMode;
 
 /*******************************************************************************

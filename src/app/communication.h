@@ -22,8 +22,8 @@
 #define FLOOD_HANDLED		0x03
 #define MOTION_TRIGGERED	0x44
 #define MOTION_HANDLED		0x04
-#define DOOR_TRIGGERED		0x45
-#define DOOR_HANDLED		0x05
+#define DOOR_OPENED			0x45
+#define DOOR_CLOSED			0x05
 
 #define PANIC_ON 			0x96
 #define PANIC_OFF 			0x86
