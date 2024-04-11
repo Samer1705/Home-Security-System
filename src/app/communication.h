@@ -25,12 +25,14 @@
 #define DOOR_OPENED			0x45
 #define DOOR_CLOSED			0x05
 
-#define PANIC_ON 			0x96
-#define PANIC_OFF 			0x86
-#define DISARM_ON			0x97
-#define DISARM_OFF 			0x87
-#define DOOR_OPEN			0xE8
-#define DOOR_CLOSE			0x88
+#define MOTION_ON			0x96
+#define MOTION_OFF			0x86
+#define PANIC_ON 			0x97
+#define PANIC_OFF 			0x87
+#define DISARM_ON			0x98
+#define DISARM_OFF 			0x88
+#define DOOR_OPEN			0xE9
+#define DOOR_CLOSE			0x89
 
 /*******************************************************************************
  *                                Function Prototypes                          *

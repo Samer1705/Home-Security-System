@@ -5,8 +5,6 @@
  ============================================================================
  */
 
-#include "../hal/actuators/led.h"
-#include "../mcal/atmega32_gpio.h"
 #include "../mcal/atmega32_interrupt.h"
 #include "communication.h"
 #include "subsystems/alarm_system/alarm_system.h"
@@ -17,16 +15,11 @@
 #include "subsystems/water_flood_system/water_flood_system.h"
 
 /*******************************************************************************
- *                           Global Variables                                  *
- *******************************************************************************/
-LED	g_testLED = {PORTD_ID, PIN7_ID};		/* Testing LED */
-
-/*******************************************************************************
  *                          Main Functions                              	   *
  *******************************************************************************/
 int main(void)
 {
-
+	/* Initialize Communication */
 	Comm_Init();
 
 	/* Initialize Sub Systems */
@@ -39,9 +32,6 @@ int main(void)
 
 	/* Enable Global Interrupt */
 	INTERRUPT_enable();
-
-	/* Testing LED */
-	LED_init(&g_testLED);
 
 	while(1)
 	{

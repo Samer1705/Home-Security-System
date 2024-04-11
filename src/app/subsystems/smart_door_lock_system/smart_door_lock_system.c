@@ -9,13 +9,13 @@
 
 #include <util/delay.h>
 
-#include "../../../common/std_types.h"
 #include "../../../hal/actuators/keypad.h"
 #include "../../../hal/actuators/lcd.h"
 #include "../../../hal/actuators/solenoid_lock.h"
 #include "../../../mcal/atmega32_eeprom.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer2.h"
+#include "../../communication.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -31,12 +31,14 @@ boolean g_lcdDelayFlag = FALSE, g_isdoorLocked = TRUE;
  *                          Functions Definitions                              *
  *******************************************************************************/
 
-void lockDoor() {
+static void lockDoor() {
 	SOLENOID_on(&g_lock);
+	Comm_HandleSend(DOOR_CLOSED);
 }
 
-void unlockDoor() {
+static void unlockDoor() {
 	SOLENOID_off(&g_lock);
+	Comm_HandleSend(DOOR_OPENED);
 }
 
 static void setLcdDelay(uint8 seconds) {
