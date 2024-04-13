@@ -3,6 +3,7 @@
 #include <PubSubClient.h>
 #include <string.h>
 
+
 using namespace std;
 
 #define FIRE_TRIGGERED 0x41
@@ -35,11 +36,11 @@ using namespace std;
 
 // ESP Client Configuration:
 WiFiClient espClient;
-const char* systemID = String("HSS@" + String(WiFi.macAddress())).c_str();
+const char* systemID = String("HSS@" + WiFi.macAddress()).c_str();
 PubSubClient client(MQTT_SERVER, MQTT_PORT, espClient);
 
-#define RX 1 
-#define TX 2
+#define RX 12
+#define TX 13
 SoftwareSerial avrSerial(RX, TX);
 
 /***************************************************************************************************
@@ -53,6 +54,8 @@ void AvrToApp(uint8_t rData);
 void AppToAvr(char* topic, char* payload);
 
 void setup() {
+  // WiFi.macAddress(mac);
+  // systemID = String(base36_encode(mac, sizeof(mac))).c_str();
   Serial.begin(9600);  // Set Uart for Serial Monitor communication
   avrSerial.begin(9600);
   WIFI_Init();
@@ -88,23 +91,21 @@ void WIFI_Init() {
 
 void MQTT_Init() {
   client.setCallback(MQTT_Callback);
-  client.subscribe((char*)String(systemID).concat("/MotionEnable"));
-  client.subscribe((char*)String(systemID).concat("/PanicMode"));
-  client.subscribe((char*)String(systemID).concat("/DisarmMode"));
-  client.subscribe((char*)String(systemID).concat("/DoorLock"));
   MQTT_Reconnect();
 }
 
 //print any message received for subscribed topic
 void MQTT_Callback(char* topic, byte* payload, unsigned int length) {
+  String msg = "";
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
+    msg.concat((char)payload[i]);
   }
   Serial.println();
-  AppToAvr(topic, (char*)payload);
+  AppToAvr(topic, msg);
 }
 
 void MQTT_Reconnect() {
@@ -117,6 +118,10 @@ void MQTT_Reconnect() {
     Serial.println("Attempting MQTT connection...");
     if (client.connect(systemID)) {
       Serial.println("MQTT connection established, Client ID: " + String(systemID));
+      client.subscribe(String(systemID + String("/MotionEnable")).c_str());
+      client.subscribe(String(systemID + String("/PanicMode")).c_str());
+      client.subscribe(String(systemID + String("/DisarmMode")).c_str());
+      client.subscribe(String(systemID + String("/DoorLock")).c_str());
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -130,64 +135,80 @@ void AvrToApp(uint8_t rData) {
   Serial.println(rData, HEX);
   switch (rData) {
     case FIRE_TRIGGERED:
-      client.publish((char*)String(systemID).concat("/FireSystem"), "Triggered");
+      client.publish(String(systemID + String("/FireSystem")).c_str(), "Triggered");
+      Serial.println("Fire System Triggered");
       break;
     case FIRE_HANDLED:
-      client.publish((char*)String(systemID).concat("/FireSystem"), "Handled");
+      client.publish(String(systemID + String("/FireSystem")).c_str(), "Handled");
+      Serial.println("Fire System Handled");
       break;
     case GAS_TRIGGERED:
-      client.publish((char*)String(systemID).concat("/GasSystem"), "Triggered");
+      client.publish(String(systemID + String("/GasSystem")).c_str(), "Triggered");
+      Serial.println("Gas System Triggered");
       break;
     case GAS_HANDLED:
-      client.publish((char*)String(systemID).concat("/GasSystem"), "Handled");
+      client.publish(String(systemID + String("/GasSystem")).c_str(), "Handled");
+      Serial.println("Gas System Handled");
       break;
     case FLOOD_TRIGGERED:
-      client.publish((char*)String(systemID).concat("/FloodSystem"), "Triggered");
+      client.publish(String(systemID + String("/FloodSystem")).c_str(), "Triggered");
+      Serial.println("Flood System Triggered");
       break;
     case FLOOD_HANDLED:
-      client.publish((char*)String(systemID).concat("/FloodSystem"), "Handled");
+      client.publish(String(systemID + String("/FloodSystem")).c_str(), "Handled");
+      Serial.println("Flood System Handled");
       break;
     case MOTION_TRIGGERED:
-      client.publish((char*)String(systemID).concat("/MotionSystem"), "Triggered");
+      client.publish(String(systemID + String("/MotionSystem")).c_str(), "Triggered");
+      Serial.println("Motion System Triggered");
       break;
     case MOTION_HANDLED:
-      client.publish((char*)String(systemID).concat("/MotionSystem"), "Handled");
+      client.publish(String(systemID + String("/MotionSystem")).c_str(), "Handled");
+      Serial.println("Motion System Handled");
       break;
     case DOOR_OPENED:
-      client.publish((char*)String(systemID).concat("/DoorSystem"), "Opened");
+      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Opened");
+      Serial.println("Door System Opened");
       break;
     case DOOR_CLOSED:
-      client.publish((char*)String(systemID).concat("/DoorSystem"), "Closed");
+      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Closed");
+      Serial.println("Door System Closed");
       break;
     default:
       break;
   }
 }
 
-void AppToAvr(char* topic, char* payload) {
+void AppToAvr(char* topic, String msg) {
+  Serial.print(topic);
+  Serial.print(":");
+  Serial.println(msg);
   uint8_t sData = 0x00;
-  if (topic == (char*) String(systemID).concat("/MotionEnable")) {
-    if (payload == "On") {
+  if (topic == String(systemID + String("/MotionEnable")).c_str()) {
+    Serial.print("Motion Enable ");
+    if (msg == "On") {
       sData = MOTION_ON;
-    } else if (payload == "Off") {
+      Serial.println("On");
+    } else if (msg == "Off") {
       sData = MOTION_OFF;
+      Serial.println("Off");
     }
-  } else if (topic == (char*) String(systemID).concat("/PanicMode")) {
-    if (payload == "On") {
+  } else if (topic == String(systemID + String("/PanicMode")).c_str()) {
+    if (msg == "On") {
       sData = PANIC_ON;
-    } else if (payload == "Off") {
+    } else if (msg == "Off") {
       sData = PANIC_OFF;
     }
-  } else if (topic == (char*) String(systemID).concat("/DisarmMode")) {
-    if (payload == "On") {
+  } else if (topic == String(systemID + String("/DisarmMode")).c_str()) {
+    if (msg == "On") {
       sData = DISARM_ON;
-    } else if (payload == "Off") {
+    } else if (msg == "Off") {
       sData = DISARM_OFF;
     }
-  } else if (topic == (char*) String(systemID).concat("/DoorLock")) {
-    if (payload == "On") {
+  } else if (topic == String(systemID + String("/DoorLock")).c_str()) {
+    if (msg == "Open") {
       sData = DOOR_OPEN;
-    } else if (payload == "Off") {
+    } else if (msg == "Close") {
       sData = DOOR_CLOSE;
     }
   }
