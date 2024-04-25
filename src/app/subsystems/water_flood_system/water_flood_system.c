@@ -11,6 +11,7 @@
 #include "../../../hal/sensors/water_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
+#include "../../communication.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
@@ -27,12 +28,14 @@ void floodHandler()
 	{
 		DCMOTOR_on(&g_waterPump2);
 		g_threatFlag |= (1<<FLOOD_THREAT);
+		Comm_HandleSend(FLOOD_TRIGGERED);
 		INTERRUPT_INT2_init(floodHandler, FALLING);
 	}
 	else
 	{
 		DCMOTOR_off(&g_waterPump2);
 		g_threatFlag &= ~(1<<FLOOD_THREAT);
+		Comm_HandleSend(FLOOD_HANDLED);
 		INTERRUPT_INT2_init(floodHandler, RISING);
 	}
 }

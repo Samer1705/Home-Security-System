@@ -36,7 +36,7 @@ static void fireHandler()
 		g_threatFlag &= ~(1<<FIRE_THREAT);
 		Comm_HandleSend(FIRE_HANDLED);
 	}
-	gasHandler();
+	//	gasHandler();
 }
 
 void FIRE_SYSTEM_Init()

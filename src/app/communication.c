@@ -62,9 +62,9 @@ void Comm_Init()
 {
 	/* Configure & Initialize UART */
 	UART_ConfigType uartConfig =
-	{ UART_8BIT, PARITY_ENABLE, UART_1_STOP_BIT, 9600 };
+	{ UART_8BIT, PARITY_EVEN, UART_2_STOP_BIT, 115200 };
 	UART_init(&uartConfig);
-	UART_interruptEnable(RX_INT);
 	UART_setCallBackRX(RXHandler);
+	UART_interruptEnable(RX_INT);
 }
 

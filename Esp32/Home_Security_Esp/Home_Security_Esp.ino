@@ -1,8 +1,10 @@
 #include <WiFi.h>
+#include <WiFiManager.h>
+#include <WiFiClientSecure.h>
 #include <SoftwareSerial.h>
 #include <PubSubClient.h>
+#include <FirebaseClient.h>
 #include <string.h>
-
 
 using namespace std;
 
@@ -26,43 +28,78 @@ using namespace std;
 #define DOOR_OPEN 0xC9
 #define DOOR_CLOSE 0x89
 
-// Wi-Fi Credentials:
-#define SSID "WE_992B10"     // Enter Wi-Fi name
-#define PASSWORD "#100200#"  // Enter Wi-Fi password
+//Wi-Fi Manager Config:
+#define WIFI_CONFIG_PIN 2
+WiFiManager wifiManager;
+uint8_t timeout = 120;  // seconds to run for
+bool portalRunning = false;
+
 
 // MQTT Credentails:
 #define MQTT_SERVER "broker.emqx.io"
 #define MQTT_PORT 1883
 
+// Firebase Credentials:
+#define FIREBASE_API_KEY "AIzaSyC5myNa5Pjkt6gWQZpBuc2lhmKgrHZMfA0"  // The API key can be obtained from Firebase console > Project Overview > Project settings.
+#define FIREBASE_PROJECT_ID "hss-b4ea2"
+#define FIREBASE_RTDB_URL "https://hss-b4ea2-default-rtdb.europe-west1.firebasedatabase.app"
+DefaultNetwork network;  // initilize with boolean parameter to enable/disable network reconnection
+NoAuth noAuth;
+FirebaseApp app;
+RealtimeDatabase database;
+
 // ESP Client Configuration:
 WiFiClient espClient;
 const char* systemID = String("HSS@" + WiFi.macAddress()).c_str();
 PubSubClient client(MQTT_SERVER, MQTT_PORT, espClient);
+WiFiClientSecure ssl_client;
+AsyncClientClass espAClient(ssl_client, getNetwork(network));
 
-#define RX 12
-#define TX 13
-SoftwareSerial avrSerial(RX, TX);
+String systemPath = String(String("/Systems/") + systemID);
+
+// Software UART Configuartion:
+#define RX 13
+#define TX 15
+EspSoftwareSerial::UART avrSerial(RX, TX);
 
 /***************************************************************************************************
   Function Prototypes
  ***************************************************************************************************/
-void WIFI_Init();
+void WIFIMANAGER_Init();
+void WIFIMANAGER_Config();
 void MQTT_Init();
 void MQTT_Callback(char* topic, byte* payload, unsigned int length);
 void MQTT_Reconnect();
+void FIREBASE_Init();
+void FIREBASE_Callback(AsyncResult& aResult);
 void AvrToApp(uint8_t rData);
 void AppToAvr(char* topic, char* payload);
 
+
 void setup() {
-  // WiFi.macAddress(mac);
-  // systemID = String(base36_encode(mac, sizeof(mac))).c_str();
   Serial.begin(9600);  // Set Uart for Serial Monitor communication
-  avrSerial.begin(9600);
-  WIFI_Init();
+  avrSerial.begin(115200, EspSoftwareSerial::SWSERIAL_8E2);
+  if (!avrSerial) {  // If the object did not initialize, then its configuration is invalid
+    Serial.println("Invalid EspSoftwareSerial pin configuration, check config");
+    while (1) {  // Don't continue with invalid configuration
+      delay(1000);
+    }
+  }
+  WIFIMANAGER_Init();
   MQTT_Init();
+  FIREBASE_Init();
+  bool systemIsCreated = database.existed(espAClient, systemPath);
+  if (!systemIsCreated) {
+    Serial.println("System doesn't Exist in Firebase. \n Creating System Record... ");
+    object_t systemData = "{\"Name\":\"Default\",\"Settings\":{\"DisarmMode\":false,\"MotionEnable\":true,\"PanicMode\":false},\"Triggers\":{\"FireSystem\":false,\"GasSystem\":false,\"FloodSystem\":false,\"MotionSystem\":false,\"DoorSystem\":false}}";
+    database.set<object_t>(espAClient, systemPath, systemData, FIREBASE_Callback);
+  } else {
+    Serial.println("System Exists in Firebase.");
+  }
 }
 
 void loop() {
+  WIFIMANAGER_Config();
   if (!client.loop()) {
     MQTT_Reconnect();
   }
@@ -75,18 +112,34 @@ void loop() {
 /***************************************************************************************************
   Function Definitions
  ***************************************************************************************************/
-void WIFI_Init() {
-  // Attempt to connect to Wifi network:
-  WiFi.begin(SSID, PASSWORD);
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print("Attempting to connect to WEP network, SSID: ");
-    Serial.println(SSID);
-    delay(3000);  // Wait 3 seconds for connection
+void WIFIMANAGER_Init() {
+  Serial.println("\n Starting Connection");
+  WiFi.mode(WIFI_STA);  // explicitly set mode, esp defaults to STA+AP
+  pinMode(WIFI_CONFIG_PIN, INPUT_PULLUP);
+  wifiManager.autoConnect();
+}
+
+void WIFIMANAGER_Config() {
+  // is auto timeout portal running
+  if (portalRunning) {
+    wifiManager.process();
   }
-  Serial.print("Connected to WEP network successfully!, SSID: ");
-  Serial.println(SSID);
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+
+  // is configuration portal requested?
+  if (digitalRead(WIFI_CONFIG_PIN) == LOW) {
+    delay(50);
+    if (digitalRead(WIFI_CONFIG_PIN) == LOW) {
+      if (!portalRunning) {
+        Serial.println("Button Pressed, Starting Portal");
+        wifiManager.startConfigPortal();
+        portalRunning = true;
+      } else {
+        Serial.println("Button Pressed, Stopping Portal");
+        wifiManager.stopConfigPortal();
+        portalRunning = false;
+      }
+    }
+  }
 }
 
 void MQTT_Init() {
@@ -105,16 +158,13 @@ void MQTT_Callback(char* topic, byte* payload, unsigned int length) {
     msg.concat((char)payload[i]);
   }
   Serial.println();
-  AppToAvr(topic, msg);
+  AppToAvr(String(topic), msg);
 }
 
 void MQTT_Reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
-    if (WiFi.status() != WL_CONNECTED) {
-      Serial.println("Failed to reconnect MQTT, WiFi connection lost!");
-      WIFI_Init();
-    }
+    WIFIMANAGER_Config();
     Serial.println("Attempting MQTT connection...");
     if (client.connect(systemID)) {
       Serial.println("MQTT connection established, Client ID: " + String(systemID));
@@ -131,47 +181,85 @@ void MQTT_Reconnect() {
   }
 }
 
+void FIREBASE_Init() {
+  ssl_client.setInsecure();
+  database.url(FIREBASE_RTDB_URL);
+  app.setCallback(FIREBASE_Callback);
+  initializeApp(espAClient, app, getAuth(noAuth));
+  Firebase.printf("Firebase Client v%s\n", FIREBASE_CLIENT_VERSION);
+  // Waits for app to be authenticated.
+  uint16_t ms = millis();
+  while (app.isInitialized() && !app.ready() && millis() - ms < 120 * 1000)
+    ;
+  app.getApp<RealtimeDatabase>(database);
+}
+
+void FIREBASE_Callback(AsyncResult& aResult) {
+  if (aResult.appEvent().code() > 0) {
+    Firebase.printf("Event task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.appEvent().message().c_str(), aResult.appEvent().code());
+  }
+  if (aResult.isDebug()) {
+    Firebase.printf("Debug task: %s, msg: %s\n", aResult.uid().c_str(), aResult.debug().c_str());
+  }
+  if (aResult.isError()) {
+    Firebase.printf("Error task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.error().message().c_str(), aResult.error().code());
+  }
+  if (aResult.available()) {
+    Firebase.printf("task: %s, payload: %s\n", aResult.uid().c_str(), aResult.c_str());
+  }
+}
+
 void AvrToApp(uint8_t rData) {
   Serial.println(rData, HEX);
   switch (rData) {
     case FIRE_TRIGGERED:
       client.publish(String(systemID + String("/FireSystem")).c_str(), "Triggered");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), boolean_t(true), FIREBASE_Callback);
       Serial.println("Fire System Triggered");
       break;
     case FIRE_HANDLED:
       client.publish(String(systemID + String("/FireSystem")).c_str(), "Handled");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), boolean_t(false), FIREBASE_Callback);
       Serial.println("Fire System Handled");
       break;
     case GAS_TRIGGERED:
       client.publish(String(systemID + String("/GasSystem")).c_str(), "Triggered");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/Gasystem")), boolean_t(true), FIREBASE_Callback);
       Serial.println("Gas System Triggered");
       break;
     case GAS_HANDLED:
       client.publish(String(systemID + String("/GasSystem")).c_str(), "Handled");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/GasSystem")), boolean_t(false), FIREBASE_Callback);
       Serial.println("Gas System Handled");
       break;
     case FLOOD_TRIGGERED:
       client.publish(String(systemID + String("/FloodSystem")).c_str(), "Triggered");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), boolean_t(true), FIREBASE_Callback);
       Serial.println("Flood System Triggered");
       break;
     case FLOOD_HANDLED:
       client.publish(String(systemID + String("/FloodSystem")).c_str(), "Handled");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), boolean_t(false), FIREBASE_Callback);
       Serial.println("Flood System Handled");
       break;
     case MOTION_TRIGGERED:
       client.publish(String(systemID + String("/MotionSystem")).c_str(), "Triggered");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), boolean_t(true), FIREBASE_Callback);
       Serial.println("Motion System Triggered");
       break;
     case MOTION_HANDLED:
       client.publish(String(systemID + String("/MotionSystem")).c_str(), "Handled");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), boolean_t(false), FIREBASE_Callback);
       Serial.println("Motion System Handled");
       break;
     case DOOR_OPENED:
       client.publish(String(systemID + String("/DoorSystem")).c_str(), "Opened");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), boolean_t(true), FIREBASE_Callback);
       Serial.println("Door System Opened");
       break;
     case DOOR_CLOSED:
       client.publish(String(systemID + String("/DoorSystem")).c_str(), "Closed");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), boolean_t(false), FIREBASE_Callback);
       Serial.println("Door System Closed");
       break;
     default:
@@ -179,37 +267,31 @@ void AvrToApp(uint8_t rData) {
   }
 }
 
-void AppToAvr(char* topic, String msg) {
-  Serial.print(topic);
-  Serial.print(":");
-  Serial.println(msg);
+void AppToAvr(String topic, String msg) {
   uint8_t sData = 0x00;
-  if (topic == String(systemID + String("/MotionEnable")).c_str()) {
-    Serial.print("Motion Enable ");
+  if (topic == systemID + String("/MotionEnable")) {
     if (msg == "On") {
       sData = MOTION_ON;
-      Serial.println("On");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = MOTION_OFF;
-      Serial.println("Off");
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(false), FIREBASE_Callback);
     }
-  } else if (topic == String(systemID + String("/PanicMode")).c_str()) {
+  } else if (topic == systemID + String("/PanicMode")) {
     if (msg == "On") {
       sData = PANIC_ON;
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = PANIC_OFF;
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(false), FIREBASE_Callback);
     }
-  } else if (topic == String(systemID + String("/DisarmMode")).c_str()) {
+  } else if (topic == systemID + String("/DisarmMode")) {
     if (msg == "On") {
       sData = DISARM_ON;
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), boolean_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = DISARM_OFF;
-    }
-  } else if (topic == String(systemID + String("/DoorLock")).c_str()) {
-    if (msg == "Open") {
-      sData = DOOR_OPEN;
-    } else if (msg == "Close") {
-      sData = DOOR_CLOSE;
+      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), boolean_t(false), FIREBASE_Callback);
     }
   }
   avrSerial.write(sData);

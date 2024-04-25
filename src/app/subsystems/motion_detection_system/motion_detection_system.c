@@ -22,10 +22,10 @@ boolean g_motionEnable = TRUE;
 static void motionHandler() {
 	if (PIR_read()) {
 		g_threatFlag |= (1 << MOTION_THREAT);
-		Comm_HandleSend(MOTION_TRIGGERED);
+//		Comm_HandleSend(MOTION_TRIGGERED);
 	} else {
 		g_threatFlag &= ~(1 << MOTION_THREAT);
-		Comm_HandleSend(MOTION_HANDLED);
+//		Comm_HandleSend(MOTION_HANDLED);
 	}
 }
 
