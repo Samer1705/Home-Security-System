@@ -100,6 +100,8 @@ void setup() {
 
 void loop() {
   WIFIMANAGER_Config();
+  app.loop();
+  database.loop();
   if (!client.loop()) {
     MQTT_Reconnect();
   }
@@ -214,52 +216,52 @@ void AvrToApp(uint8_t rData) {
   switch (rData) {
     case FIRE_TRIGGERED:
       client.publish(String(systemID + String("/FireSystem")).c_str(), "Triggered");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Fire System Triggered");
       break;
     case FIRE_HANDLED:
       client.publish(String(systemID + String("/FireSystem")).c_str(), "Handled");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/FireSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Fire System Handled");
       break;
     case GAS_TRIGGERED:
       client.publish(String(systemID + String("/GasSystem")).c_str(), "Triggered");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/Gasystem")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/Gasystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Gas System Triggered");
       break;
     case GAS_HANDLED:
       client.publish(String(systemID + String("/GasSystem")).c_str(), "Handled");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/GasSystem")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/GasSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Gas System Handled");
       break;
     case FLOOD_TRIGGERED:
       client.publish(String(systemID + String("/FloodSystem")).c_str(), "Triggered");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Flood System Triggered");
       break;
     case FLOOD_HANDLED:
       client.publish(String(systemID + String("/FloodSystem")).c_str(), "Handled");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/FloodSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Flood System Handled");
       break;
     case MOTION_TRIGGERED:
       client.publish(String(systemID + String("/MotionSystem")).c_str(), "Triggered");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Motion System Triggered");
       break;
     case MOTION_HANDLED:
       client.publish(String(systemID + String("/MotionSystem")).c_str(), "Handled");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/MotionSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Motion System Handled");
       break;
     case DOOR_OPENED:
       client.publish(String(systemID + String("/DoorSystem")).c_str(), "Opened");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Door System Opened");
       break;
     case DOOR_CLOSED:
       client.publish(String(systemID + String("/DoorSystem")).c_str(), "Closed");
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/DoorSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Door System Closed");
       break;
     default:
@@ -272,26 +274,26 @@ void AppToAvr(String topic, String msg) {
   if (topic == systemID + String("/MotionEnable")) {
     if (msg == "On") {
       sData = MOTION_ON;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(true), FIREBASE_Callback);
+      database.set<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = MOTION_OFF;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(false), FIREBASE_Callback);
+      database.set<boolean_t>(espAClient, String(systemPath + String("/Settings/MotionEnable")), boolean_t(false), FIREBASE_Callback);
     }
   } else if (topic == systemID + String("/PanicMode")) {
     if (msg == "On") {
       sData = PANIC_ON;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(true), FIREBASE_Callback);
+      database.set<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = PANIC_OFF;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(false), FIREBASE_Callback);
+      database.set<boolean_t>(espAClient, String(systemPath + String("/Settings/PanicMode")), boolean_t(false), FIREBASE_Callback);
     }
   } else if (topic == systemID + String("/DisarmMode")) {
     if (msg == "On") {
       sData = DISARM_ON;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), boolean_t(true), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), object_t(true), FIREBASE_Callback);
     } else if (msg == "Off") {
       sData = DISARM_OFF;
-      database.update<boolean_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), boolean_t(false), FIREBASE_Callback);
+      database.set<object_t>(espAClient, String(systemPath + String("/Settings/DisarmMode")), object_t(false), FIREBASE_Callback);
     }
   }
   avrSerial.write(sData);
