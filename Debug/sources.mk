@@ -30,4 +30,5 @@ src/app/subsystems/water_flood_system \
 src/hal/actuators \
 src/hal/sensors \
 src/mcal \
+src/test \
 

@@ -7,11 +7,11 @@
 
 #include "alarm_system.h"
 
-#include "../../../common/std_types.h"
 #include "../../../hal/actuators/buzzer.h"
 #include "../../../hal/actuators/led.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer0.h"
+#include "../../../test/performance_test.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *

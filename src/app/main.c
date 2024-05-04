@@ -20,7 +20,9 @@
 int main(void)
 {
 	/* Initialize Communication */
-	Comm_Init();
+		Comm_Init();
+
+//	PERFORMANCE_Init();
 
 	/* Initialize Sub Systems */
 	ALARM_SYSTEM_Init();

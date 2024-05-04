@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src/test/subdir.mk
 -include src/mcal/subdir.mk
 -include src/hal/sensors/subdir.mk
 -include src/hal/actuators/subdir.mk

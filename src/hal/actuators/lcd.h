@@ -111,4 +111,10 @@ void LCD_intgerToString(int data);
  */
 void LCD_clearScreen(void);
 
+/*
+ * Description :
+ * to display float numbers
+ */
+void LCD_floatToString(double num);
+
 #endif /* SRC_HAL_ACTUATORS_LCD_H_ */

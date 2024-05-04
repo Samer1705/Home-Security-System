@@ -11,32 +11,31 @@
 #include "../../../hal/sensors/flame_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
-#include "../../communication.h"
+#include "../../../test/performance_test.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
  *******************************************************************************/
-DCMotor g_waterPump1 = {PORTD_ID, PIN4_ID};	/* Fire System Water Pump */
+DCMotor g_waterPump1 =
+{ PORTD_ID, PIN4_ID }; /* Fire System Water Pump */
 
 /*******************************************************************************
  *                          Functions Definitions                              *
  *******************************************************************************/
 static void fireHandler()
 {
-	if(FLAME_read())
+	if (FLAME_read())
 	{
 		DCMOTOR_on(&g_waterPump1);
-		g_threatFlag |= (1<<FIRE_THREAT);
-		Comm_HandleSend(FIRE_TRIGGERED);
+		g_threatFlag |= (1 << FIRE_THREAT);
 	}
 	else
 	{
 		DCMOTOR_off(&g_waterPump1);
-		g_threatFlag &= ~(1<<FIRE_THREAT);
-		Comm_HandleSend(FIRE_HANDLED);
+		g_threatFlag &= ~(1 << FIRE_THREAT);
 	}
-	//	gasHandler();
+	gasHandler();
 }
 
 void FIRE_SYSTEM_Init()

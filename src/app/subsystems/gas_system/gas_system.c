@@ -11,31 +11,32 @@
 #include "../../../hal/sensors/mq9_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
-#include "../../communication.h"
+#include "../../../test/performance_test.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
  *******************************************************************************/
-DCMotor g_fan = {PORTB_ID, PIN4_ID};			/* Gas System Fan */
+DCMotor g_fan =
+{ PORTB_ID, PIN4_ID }; /* Gas System Fan */
 
 /*******************************************************************************
  *                          Functions Definitions                              *
  *******************************************************************************/
 void gasHandler()
 {
-	if(MQ9_read())
+	if (MQ9_read())
 	{
-		if(!(g_threatFlag & (1<<FIRE_THREAT)))DCMOTOR_on(&g_fan);
-		else DCMOTOR_off(&g_fan);
-		g_threatFlag |= (1<<GAS_THREAT);
-		Comm_HandleSend(GAS_TRIGGERED);
+		if (!(g_threatFlag & (1 << FIRE_THREAT)))
+			DCMOTOR_on(&g_fan);
+		else
+			DCMOTOR_off(&g_fan);
+		g_threatFlag |= (1 << GAS_THREAT);
 	}
 	else
 	{
 		DCMOTOR_off(&g_fan);
-		g_threatFlag &= ~(1<<GAS_THREAT);
-		Comm_HandleSend(GAS_HANDLED);
+		g_threatFlag &= ~(1 << GAS_THREAT);
 	}
 }
 

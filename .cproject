@@ -113,12 +113,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="Home_Security_System.de.innot.avreclipse.project.winavr.elf_2.1.0.1582654561" name="AVR Cross Target Application" projectType="de.innot.avreclipse.project.winavr.elf_2.1.0"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.67065705;de.innot.avreclipse.configuration.app.release.67065705.;de.innot.avreclipse.tool.compiler.winavr.app.release.89593336;de.innot.avreclipse.compiler.winavr.input.1656638775">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
-		</scannerConfigBuildInfo>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Debug">
@@ -129,4 +123,13 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.67065705;de.innot.avreclipse.configuration.app.release.67065705.;de.innot.avreclipse.tool.compiler.winavr.app.release.89593336;de.innot.avreclipse.compiler.winavr.input.1656638775">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.1847939713;de.innot.avreclipse.configuration.app.debug.1847939713.;de.innot.avreclipse.tool.compiler.winavr.app.debug.1789843334;de.innot.avreclipse.compiler.winavr.input.1263514749">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
 </cproject>

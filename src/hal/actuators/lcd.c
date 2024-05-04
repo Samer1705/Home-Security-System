@@ -221,3 +221,14 @@ void LCD_clearScreen(void)
 {
 	LCD_sendCommand(LCD_CLEAR_COMMAND); /* Send clear display command */
 }
+
+/*
+ * Description :
+ * to display float numbers
+ */
+void LCD_floatToString(double num){
+	char buffer[20];
+	dtostrf(num,5,3,buffer);
+	LCD_displayString(buffer);
+
+}

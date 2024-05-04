@@ -11,31 +11,30 @@
 #include "../../../hal/sensors/water_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
-#include "../../communication.h"
+#include "../../../test/performance_test.h"
 #include "../alarm_system/alarm_system.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
  *******************************************************************************/
-DCMotor g_waterPump2 = {PORTD_ID, PIN5_ID};		/* Flood System Water Pump */
+DCMotor g_waterPump2 =
+{ PORTD_ID, PIN5_ID }; /* Flood System Water Pump */
 
 /*******************************************************************************
  *                          Functions Definitions                              *
  *******************************************************************************/
 void floodHandler()
 {
-	if(WATER_read())
+	if (WATER_read())
 	{
 		DCMOTOR_on(&g_waterPump2);
-		g_threatFlag |= (1<<FLOOD_THREAT);
-		Comm_HandleSend(FLOOD_TRIGGERED);
+		g_threatFlag |= (1 << FLOOD_THREAT);
 		INTERRUPT_INT2_init(floodHandler, FALLING);
 	}
 	else
 	{
 		DCMOTOR_off(&g_waterPump2);
-		g_threatFlag &= ~(1<<FLOOD_THREAT);
-		Comm_HandleSend(FLOOD_HANDLED);
+		g_threatFlag &= ~(1 << FLOOD_THREAT);
 		INTERRUPT_INT2_init(floodHandler, RISING);
 	}
 }

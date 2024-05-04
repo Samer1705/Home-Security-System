@@ -1,32 +1,33 @@
+#include <SoftwareSerial.h>
+
 #include <WiFi.h>
 #include <WiFiManager.h>
 #include <WiFiClientSecure.h>
-#include <SoftwareSerial.h>
 #include <PubSubClient.h>
 #include <FirebaseClient.h>
 #include <string.h>
 
 using namespace std;
 
-#define FIRE_TRIGGERED 0x41
-#define FIRE_HANDLED 0x01
-#define GAS_TRIGGERED 0x42
-#define GAS_HANDLED 0x02
-#define FLOOD_TRIGGERED 0x43
-#define FLOOD_HANDLED 0x03
-#define MOTION_TRIGGERED 0x44
-#define MOTION_HANDLED 0x04
-#define DOOR_OPENED 0x45
-#define DOOR_CLOSED 0x05
+#define FIRE_TRIGGERED 1
+#define FIRE_HANDLED 2
+#define GAS_TRIGGERED 3
+#define GAS_HANDLED 4
+#define FLOOD_TRIGGERED 5
+#define FLOOD_HANDLED 6
+#define MOTION_TRIGGERED 7
+#define MOTION_HANDLED 8
+#define DOOR_OPENED 9
+#define DOOR_CLOSED 10
 
-#define MOTION_ON 0xC6
-#define MOTION_OFF 0x86
-#define PANIC_ON 0xC7
-#define PANIC_OFF 0x87
-#define DISARM_ON 0xC8
-#define DISARM_OFF 0x88
-#define DOOR_OPEN 0xC9
-#define DOOR_CLOSE 0x89
+#define MOTION_ON 11
+#define MOTION_OFF 12
+#define PANIC_ON 13
+#define PANIC_OFF 14
+#define DISARM_ON 15
+#define DISARM_OFF 16
+#define DOOR_OPEN 17
+#define DOOR_CLOSE 18
 
 //Wi-Fi Manager Config:
 #define WIFI_CONFIG_PIN 2
@@ -77,8 +78,8 @@ void AppToAvr(char* topic, char* payload);
 
 
 void setup() {
-  Serial.begin(9600);  // Set Uart for Serial Monitor communication
-  avrSerial.begin(115200, EspSoftwareSerial::SWSERIAL_8E2);
+  Serial.begin(115200);  // Set Uart for Serial Monitor communication
+  avrSerial.begin(115200, EspSoftwareSerial::SWSERIAL_5E1);
   if (!avrSerial) {  // If the object did not initialize, then its configuration is invalid
     Serial.println("Invalid EspSoftwareSerial pin configuration, check config");
     while (1) {  // Don't continue with invalid configuration
@@ -106,7 +107,7 @@ void loop() {
     MQTT_Reconnect();
   }
   if (avrSerial.available()) {
-    uint8_t rData = avrSerial.read();  // Read value received from AVR UART
+    int rData = avrSerial.read();  // Read value received from AVR UART
     AvrToApp(rData);
   }
 }
@@ -211,7 +212,7 @@ void FIREBASE_Callback(AsyncResult& aResult) {
   }
 }
 
-void AvrToApp(uint8_t rData) {
+void AvrToApp(int rData) {
   Serial.println(rData, HEX);
   switch (rData) {
     case FIRE_TRIGGERED:
