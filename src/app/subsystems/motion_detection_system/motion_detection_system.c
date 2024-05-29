@@ -8,13 +8,8 @@
 #include "motion_detection_system.h"
 
 #include "../../../hal/sensors/pir_sensor.h"
-#include "../../../test/performance_test.h"
-#include "../alarm_system/alarm_system.h"
-
-/*******************************************************************************
- *                           Global Variables                                  *
- *******************************************************************************/
-boolean g_motionEnable = TRUE;
+#include "../../communication.h"
+#include "../../../common/common_macros.h"
 
 /*******************************************************************************
  *                          Functions Definitions                              *
@@ -23,11 +18,11 @@ static void motionHandler()
 {
 	if (PIR_read())
 	{
-		g_threatFlag |= (1 << MOTION_THREAT);
+		SET_BIT(g_triggersFlag, MOTION_TRIGGER);
 	}
 	else
 	{
-		g_threatFlag &= ~(1 << MOTION_THREAT);
+		CLEAR_BIT(g_triggersFlag, MOTION_TRIGGER);
 	}
 }
 
@@ -39,7 +34,7 @@ void MOTION_DETECTION_SYSTEM_Init()
 
 void MOTION_DETECTION_SYSTEM_Listener()
 {
-	if (g_motionEnable)
+	if (BIT_IS_SET(g_settingsFlag, MOTION_ENABLE))
 	{
 		motionHandler();
 	}

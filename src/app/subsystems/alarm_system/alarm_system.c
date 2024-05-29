@@ -11,7 +11,8 @@
 #include "../../../hal/actuators/led.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer0.h"
-#include "../../../test/performance_test.h"
+#include "../../communication.h"
+#include "../../../common/common_macros.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -19,7 +20,6 @@
 Buzzer 	g_alarmBuzzer = {PORTB_ID, PIN0_ID};		/* Alarm Buzzer */
 LED		g_alarmLED = {PORTB_ID, PIN1_ID};		/* Alarm LED */
 uint8 	g_alarmTimerCount = 0;
-uint8 g_threatFlag = 0;
 
 /*******************************************************************************
  *                          Functions Definitions                              *
@@ -66,6 +66,6 @@ void ALARM_SYSTEM_Init()
 
 void ALARM_SYSTEM_Listener()
 {
-	if(g_threatFlag) alarmOn();
+	if((g_triggersFlag & 0x0F) || BIT_IS_SET(g_settingsFlag, PANIC_MODE)) alarmOn();
 	else alarmOff();
 }

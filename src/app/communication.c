@@ -10,6 +10,7 @@
 #include "../common/common_macros.h"
 #include "../mcal/atmega32_timer1.h"
 #include "../mcal/atmega32_uart.h"
+#include "../mcal/atmega32_interrupt.h"
 #include "subsystems/alarm_system/alarm_system.h"
 #include "subsystems/motion_detection_system/motion_detection_system.h"
 #include "subsystems/smart_door_lock_system/smart_door_lock_system.h"
@@ -18,6 +19,7 @@
  *                           Global Variables                                  *
  *******************************************************************************/
 static volatile uint8 g_transmitFlag = 0x00;
+uint8 g_triggersFlag = 0x00, g_settingsFlag= 0x00;
 
 /*******************************************************************************
  *                      Functions Definitions                                  *
@@ -25,10 +27,11 @@ static volatile uint8 g_transmitFlag = 0x00;
 
 static void Comm_HandleSend()
 {
-	if (GET_BIT(g_threatFlag, FIRE_THREAT) != GET_BIT(g_transmitFlag, FIRE_THREAT))
+	if (GET_BIT(g_triggersFlag,
+			FIRE_TRIGGER) != GET_BIT(g_transmitFlag, FIRE_TRIGGER))
 	{
-		TOGGLE_BIT(g_transmitFlag, FIRE_THREAT);
-		if (BIT_IS_SET(g_threatFlag, FIRE_THREAT))
+		TOGGLE_BIT(g_transmitFlag, FIRE_TRIGGER);
+		if (BIT_IS_SET(g_triggersFlag, FIRE_TRIGGER))
 		{
 			UART_sendByte(FIRE_TRIGGERED);
 		}
@@ -37,10 +40,11 @@ static void Comm_HandleSend()
 			UART_sendByte(FIRE_HANDLED);
 		}
 	}
-	else if (GET_BIT(g_threatFlag, GAS_THREAT) != GET_BIT(g_transmitFlag, GAS_THREAT))
+	else if (GET_BIT(g_triggersFlag,
+			GAS_TRIGGER) != GET_BIT(g_transmitFlag, GAS_TRIGGER))
 	{
-		TOGGLE_BIT(g_transmitFlag, GAS_THREAT);
-		if (BIT_IS_SET(g_threatFlag, GAS_THREAT))
+		TOGGLE_BIT(g_transmitFlag, GAS_TRIGGER);
+		if (BIT_IS_SET(g_triggersFlag, GAS_TRIGGER))
 		{
 			UART_sendByte(GAS_TRIGGERED);
 		}
@@ -49,10 +53,11 @@ static void Comm_HandleSend()
 			UART_sendByte(GAS_HANDLED);
 		}
 	}
-	else if (GET_BIT(g_threatFlag, FLOOD_THREAT) != GET_BIT(g_transmitFlag, FLOOD_THREAT))
+	else if (GET_BIT(g_triggersFlag,
+			FLOOD_TRIGGER) != GET_BIT(g_transmitFlag, FLOOD_TRIGGER))
 	{
-		TOGGLE_BIT(g_transmitFlag, FLOOD_THREAT);
-		if (BIT_IS_SET(g_threatFlag, FLOOD_THREAT))
+		TOGGLE_BIT(g_transmitFlag, FLOOD_TRIGGER);
+		if (BIT_IS_SET(g_triggersFlag, FLOOD_TRIGGER))
 		{
 			UART_sendByte(FLOOD_TRIGGERED);
 		}
@@ -61,10 +66,11 @@ static void Comm_HandleSend()
 			UART_sendByte(FLOOD_HANDLED);
 		}
 	}
-	else if (GET_BIT(g_threatFlag, MOTION_THREAT) != GET_BIT(g_transmitFlag, MOTION_THREAT))
+	else if (GET_BIT(g_triggersFlag,
+			MOTION_TRIGGER) != GET_BIT(g_transmitFlag, MOTION_TRIGGER))
 	{
-		TOGGLE_BIT(g_transmitFlag, MOTION_THREAT);
-		if (BIT_IS_SET(g_threatFlag, MOTION_THREAT))
+		TOGGLE_BIT(g_transmitFlag, MOTION_TRIGGER);
+		if (BIT_IS_SET(g_triggersFlag, MOTION_TRIGGER))
 		{
 			UART_sendByte(MOTION_TRIGGERED);
 		}
@@ -73,6 +79,19 @@ static void Comm_HandleSend()
 			UART_sendByte(MOTION_HANDLED);
 		}
 	}
+	else if (GET_BIT(g_triggersFlag,
+				DOOR_TRIGGER) != GET_BIT(g_transmitFlag, DOOR_TRIGGER))
+		{
+			TOGGLE_BIT(g_transmitFlag, DOOR_TRIGGER);
+			if (BIT_IS_SET(g_triggersFlag, DOOR_TRIGGER))
+			{
+				UART_sendByte(DOOR_TRIGGER);
+			}
+			else
+			{
+				UART_sendByte(DOOR_TRIGGER);
+			}
+		}
 }
 
 static void Comm_HandleReceive(uint8 rData)
@@ -80,26 +99,36 @@ static void Comm_HandleReceive(uint8 rData)
 	switch (rData)
 	{
 	case MOTION_ON:
-		g_motionEnable = TRUE;
+		SET_BIT(g_settingsFlag, MOTION_ENABLE);
 		break;
 	case MOTION_OFF:
-		g_motionEnable = FALSE;
+		CLEAR_BIT(g_settingsFlag, MOTION_ENABLE);
 		break;
 	case PANIC_ON:
-		g_threatFlag |= (1 << PANIC_MODE);
+		SET_BIT(g_settingsFlag, PANIC_MODE);
 		break;
 	case PANIC_OFF:
-		g_threatFlag &= ~(1 << PANIC_MODE);
+		CLEAR_BIT(g_settingsFlag, PANIC_MODE);
 		break;
 	case DISARM_ON:
+		INTERRUPT_disable();
+		SET_BIT(g_settingsFlag, DISARM_MODE);
 		break;
 	case DISARM_OFF:
+		INTERRUPT_enable();
+		CLEAR_BIT(g_settingsFlag, DISARM_MODE);
 		break;
-	case DOOR_OPEN:
+	case DOORLOCK_OFF:
 		setMode(NORMAL_LOCKED, 3);
 		break;
-	case DOOR_CLOSE:
+	case DOORLOCK_ON:
 		setMode(NORMAL_LOCKED, 1);
+		break;
+	case FAN_ON:
+		SET_BIT(g_settingsFlag, FAN);
+		break;
+	case FAN_OFF:
+		CLEAR_BIT(g_settingsFlag, FAN);
 		break;
 	default:
 		break;

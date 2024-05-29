@@ -4,6 +4,7 @@ src/app/communication.o src/app/communication.o:  \
   ../src/app/../mcal/atmega32_timer1.h \
   ../src/app/../mcal/../common/std_types.h \
   ../src/app/../mcal/atmega32_uart.h \
+  ../src/app/../mcal/atmega32_interrupt.h \
   ../src/app/subsystems/alarm_system/alarm_system.h \
   ../src/app/subsystems/alarm_system/../../../common/std_types.h \
   ../src/app/subsystems/motion_detection_system/motion_detection_system.h \
@@ -22,6 +23,8 @@ src/app/communication.o src/app/communication.o:  \
 ../src/app/../mcal/../common/std_types.h:
 
 ../src/app/../mcal/atmega32_uart.h:
+
+../src/app/../mcal/atmega32_interrupt.h:
 
 ../src/app/subsystems/alarm_system/alarm_system.h:
 

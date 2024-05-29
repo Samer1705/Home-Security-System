@@ -7,12 +7,12 @@
 
 #include "fire_system.h"
 
+#include "../../../common/common_macros.h"
 #include "../../../hal/actuators/dc_motor.h"
 #include "../../../hal/sensors/flame_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
-#include "../../../test/performance_test.h"
-#include "../alarm_system/alarm_system.h"
+#include "../../communication.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -28,12 +28,12 @@ static void fireHandler()
 	if (FLAME_read())
 	{
 		DCMOTOR_on(&g_waterPump1);
-		g_threatFlag |= (1 << FIRE_THREAT);
+		SET_BIT(g_triggersFlag, FIRE_TRIGGER);
 	}
 	else
 	{
 		DCMOTOR_off(&g_waterPump1);
-		g_threatFlag &= ~(1 << FIRE_THREAT);
+		CLEAR_BIT(g_triggersFlag, FIRE_TRIGGER);
 	}
 	gasHandler();
 }

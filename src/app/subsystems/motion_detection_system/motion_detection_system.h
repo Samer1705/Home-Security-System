@@ -9,10 +9,6 @@
 #define SRC_APP_SUBSYSTEMS_MOTION_DETECTION_SYSTEM_MOTION_DETECTION_SYSTEM_H_
 
 #include "../../../common/std_types.h"
-/*******************************************************************************
- *                           Global Variables                                  *
- *******************************************************************************/
-extern boolean g_motionEnable;
 
 /*******************************************************************************
  *                              Functions Prototypes                           *

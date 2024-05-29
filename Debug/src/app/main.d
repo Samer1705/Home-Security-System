@@ -9,7 +9,8 @@ src/app/main.o src/app/main.o: ../src/app/main.c \
   ../src/app/subsystems/motion_detection_system/../../../common/std_types.h \
   ../src/app/subsystems/smart_door_lock_system/smart_door_lock_system.h \
   ../src/app/subsystems/smart_door_lock_system/../../../common/std_types.h \
-  ../src/app/subsystems/water_flood_system/water_flood_system.h
+  ../src/app/subsystems/water_flood_system/water_flood_system.h \
+  ../src/app/../common/common_macros.h
 
 ../src/app/../mcal/atmega32_interrupt.h:
 
@@ -34,3 +35,5 @@ src/app/main.o src/app/main.o: ../src/app/main.c \
 ../src/app/subsystems/smart_door_lock_system/../../../common/std_types.h:
 
 ../src/app/subsystems/water_flood_system/water_flood_system.h:
+
+../src/app/../common/common_macros.h:

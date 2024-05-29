@@ -13,6 +13,7 @@
 #include "subsystems/motion_detection_system/motion_detection_system.h"
 #include "subsystems/smart_door_lock_system/smart_door_lock_system.h"
 #include "subsystems/water_flood_system/water_flood_system.h"
+#include "../common/common_macros.h"
 
 /*******************************************************************************
  *                          Main Functions                              	   *
@@ -20,9 +21,7 @@
 int main(void)
 {
 	/* Initialize Communication */
-		Comm_Init();
-
-//	PERFORMANCE_Init();
+	Comm_Init();
 
 	/* Initialize Sub Systems */
 	ALARM_SYSTEM_Init();
@@ -35,10 +34,13 @@ int main(void)
 	/* Enable Global Interrupt */
 	INTERRUPT_enable();
 
-	while(1)
+	while (1)
 	{
-		SMART_DOOR_LOCK_SYSTEM_Listener();
-		MOTION_DETECTION_SYSTEM_Listener();
-		ALARM_SYSTEM_Listener();
+		if (BIT_IS_CLEAR(g_settingsFlag, DISARM_MODE))
+		{
+			SMART_DOOR_LOCK_SYSTEM_Listener();
+			MOTION_DETECTION_SYSTEM_Listener();
+			ALARM_SYSTEM_Listener();
+		}
 	}
 }

@@ -16,6 +16,7 @@
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_timer2.h"
 #include "../../communication.h"
+#include "../../../common/common_macros.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -35,13 +36,13 @@ boolean g_lcdDelayFlag = FALSE, g_isdoorLocked = TRUE;
 static void lockDoor()
 {
 	SOLENOID_on(&g_lock);
-//	Comm_HandleSend(DOOR_CLOSED);
+	SET_BIT(g_triggersFlag, DOOR_TRIGGER);
 }
 
 static void unlockDoor()
 {
 	SOLENOID_off(&g_lock);
-//	Comm_HandleSend(DOOR_OPENED);
+	CLEAR_BIT(g_triggersFlag, DOOR_TRIGGER);
 }
 
 static void setLcdDelay(uint8 seconds)

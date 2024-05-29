@@ -11,8 +11,8 @@
 #include "../../../hal/sensors/mq9_sensor.h"
 #include "../../../mcal/atmega32_gpio.h"
 #include "../../../mcal/atmega32_interrupt.h"
-#include "../../../test/performance_test.h"
-#include "../alarm_system/alarm_system.h"
+#include "../../communication.h"
+#include "../../../common/common_macros.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
@@ -27,16 +27,16 @@ void gasHandler()
 {
 	if (MQ9_read())
 	{
-		if (!(g_threatFlag & (1 << FIRE_THREAT)))
+		if (BIT_IS_CLEAR(g_triggersFlag, FIRE_TRIGGER))
 			DCMOTOR_on(&g_fan);
 		else
 			DCMOTOR_off(&g_fan);
-		g_threatFlag |= (1 << GAS_THREAT);
+		SET_BIT(g_triggersFlag, FLOOD_TRIGGER);
 	}
 	else
 	{
 		DCMOTOR_off(&g_fan);
-		g_threatFlag &= ~(1 << GAS_THREAT);
+		CLEAR_BIT(g_triggersFlag, FLOOD_TRIGGER);
 	}
 }
 
