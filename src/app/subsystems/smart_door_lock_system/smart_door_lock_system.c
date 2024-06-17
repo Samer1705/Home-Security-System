@@ -36,13 +36,13 @@ boolean g_lcdDelayFlag = FALSE, g_isdoorLocked = TRUE;
 static void lockDoor()
 {
 	SOLENOID_on(&g_lock);
-	SET_BIT(g_triggersFlag, DOOR_TRIGGER);
+	CLEAR_BIT(g_triggersFlag, DOOR_TRIGGER);
 }
 
 static void unlockDoor()
 {
 	SOLENOID_off(&g_lock);
-	CLEAR_BIT(g_triggersFlag, DOOR_TRIGGER);
+	SET_BIT(g_triggersFlag, DOOR_TRIGGER);
 }
 
 static void setLcdDelay(uint8 seconds)

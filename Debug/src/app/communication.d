@@ -10,7 +10,8 @@ src/app/communication.o src/app/communication.o:  \
   ../src/app/subsystems/motion_detection_system/motion_detection_system.h \
   ../src/app/subsystems/motion_detection_system/../../../common/std_types.h \
   ../src/app/subsystems/smart_door_lock_system/smart_door_lock_system.h \
-  ../src/app/subsystems/smart_door_lock_system/../../../common/std_types.h
+  ../src/app/subsystems/smart_door_lock_system/../../../common/std_types.h \
+  ../src/app/subsystems/gas_system/gas_system.h
 
 ../src/app/communication.h:
 
@@ -37,3 +38,5 @@ src/app/communication.o src/app/communication.o:  \
 ../src/app/subsystems/smart_door_lock_system/smart_door_lock_system.h:
 
 ../src/app/subsystems/smart_door_lock_system/../../../common/std_types.h:
+
+../src/app/subsystems/gas_system/gas_system.h:

@@ -259,12 +259,12 @@ void AvrToApp(int rData) {
       Serial.println("Motion System Handled");
       break;
     case DOOR_TRIGGERED:
-      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Opened");
+      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Triggered");
       database.set<object_t>(espAClient, String(systemPath + String("/Triggers/DoorSystem")), object_t(true), FIREBASE_Callback);
       Serial.println("Door System Opened");
       break;
     case DOOR_HANDLED:
-      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Closed");
+      client.publish(String(systemID + String("/DoorSystem")).c_str(), "Handled");
       database.set<object_t>(espAClient, String(systemPath + String("/Triggers/DoorSystem")), object_t(false), FIREBASE_Callback);
       Serial.println("Door System Closed");
       break;

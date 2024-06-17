@@ -31,12 +31,15 @@ void gasHandler()
 			DCMOTOR_on(&g_fan);
 		else
 			DCMOTOR_off(&g_fan);
-		SET_BIT(g_triggersFlag, FLOOD_TRIGGER);
+		SET_BIT(g_triggersFlag, GAS_TRIGGER);
 	}
 	else
 	{
-		DCMOTOR_off(&g_fan);
-		CLEAR_BIT(g_triggersFlag, FLOOD_TRIGGER);
+		if (BIT_IS_CLEAR(g_settingsFlag, FAN))
+			DCMOTOR_off(&g_fan);
+		else
+			DCMOTOR_on(&g_fan);
+		CLEAR_BIT(g_triggersFlag, GAS_TRIGGER);
 	}
 }
 

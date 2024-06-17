@@ -1,9 +1,9 @@
-/*
- * communication.h
- *
- *  Created on: Mar 12, 2024
- *      Author: samer
- */
+/******************************************************************************
+ *	Module: Communication Module
+ *	File Name: communication.h
+ *  Description: Communication Module Header File
+ *  Author: Samer Sameh Lawindy
+ *******************************************************************************/
 
 #ifndef SRC_APP_COMMUNICATION_H_
 #define SRC_APP_COMMUNICATION_H_

@@ -1,9 +1,9 @@
-/*
- * communication.c
- *
- *  Created on: Mar 12, 2024
- *      Author: samer
- */
+/******************************************************************************
+ *	Module: Communication Module
+ *	File Name: communication.c
+ *  Description: Communication Module Source File
+ *  Author: Samer Sameh Lawindy
+ *******************************************************************************/
 
 #include "communication.h"
 
@@ -14,12 +14,13 @@
 #include "subsystems/alarm_system/alarm_system.h"
 #include "subsystems/motion_detection_system/motion_detection_system.h"
 #include "subsystems/smart_door_lock_system/smart_door_lock_system.h"
+#include "subsystems/gas_system/gas_system.h"
 
 /*******************************************************************************
  *                           Global Variables                                  *
  *******************************************************************************/
 static volatile uint8 g_transmitFlag = 0x00;
-uint8 g_triggersFlag = 0x00, g_settingsFlag= 0x00;
+uint8 g_triggersFlag = 0x00, g_settingsFlag= 0x01;
 
 /*******************************************************************************
  *                      Functions Definitions                                  *
@@ -85,11 +86,11 @@ static void Comm_HandleSend()
 			TOGGLE_BIT(g_transmitFlag, DOOR_TRIGGER);
 			if (BIT_IS_SET(g_triggersFlag, DOOR_TRIGGER))
 			{
-				UART_sendByte(DOOR_TRIGGER);
+				UART_sendByte(DOOR_TRIGGERED);
 			}
 			else
 			{
-				UART_sendByte(DOOR_TRIGGER);
+				UART_sendByte(DOOR_HANDLED);
 			}
 		}
 }
@@ -113,6 +114,7 @@ static void Comm_HandleReceive(uint8 rData)
 	case DISARM_ON:
 		INTERRUPT_disable();
 		SET_BIT(g_settingsFlag, DISARM_MODE);
+		setMode(NORMAL_LOCKED, 3);
 		break;
 	case DISARM_OFF:
 		INTERRUPT_enable();
@@ -126,9 +128,11 @@ static void Comm_HandleReceive(uint8 rData)
 		break;
 	case FAN_ON:
 		SET_BIT(g_settingsFlag, FAN);
+		gasHandler();
 		break;
 	case FAN_OFF:
 		CLEAR_BIT(g_settingsFlag, FAN);
+		gasHandler();
 		break;
 	default:
 		break;
