@@ -1,5 +1,4 @@
 #include <SoftwareSerial.h>
-
 #include <WiFi.h>
 #include <WiFiManager.h>
 #include <WiFiClientSecure.h>
@@ -58,7 +57,6 @@ const char* systemID = String("HSS@" + WiFi.macAddress()).c_str();
 PubSubClient client(MQTT_SERVER, MQTT_PORT, espClient);
 WiFiClientSecure ssl_client;
 AsyncClientClass espAClient(ssl_client, getNetwork(network));
-
 String systemPath = String(String("/Systems/") + systemID);
 
 // Software UART Configuartion:
@@ -72,7 +70,7 @@ EspSoftwareSerial::UART avrSerial(RX, TX);
 void WIFIMANAGER_Init();
 void WIFIMANAGER_Config();
 void MQTT_Init();
-void MQTT_Callback(char* topic, byte* payload, unsigned int length);
+void MQTT_Callback(char* topic, uint8_t* payload, unsigned int length);
 void MQTT_Reconnect();
 void FIREBASE_Init();
 void FIREBASE_Callback(AsyncResult& aResult);
@@ -154,7 +152,7 @@ void MQTT_Init() {
 }
 
 //print any message received for subscribed topic
-void MQTT_Callback(char* topic, byte* payload, unsigned int length) {
+void MQTT_Callback(char* topic, uint8_t* payload, unsigned int length) {
   String msg = "";
   Serial.print("Message arrived [");
   Serial.print(topic);

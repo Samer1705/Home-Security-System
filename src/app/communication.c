@@ -20,7 +20,7 @@
  *                           Global Variables                                  *
  *******************************************************************************/
 static volatile uint8 g_transmitFlag = 0x00;
-uint8 g_triggersFlag = 0x00, g_settingsFlag= 0x01;
+uint8 g_triggersFlag = 0x00, g_settingsFlag = 0x01;
 
 /*******************************************************************************
  *                      Functions Definitions                                  *
@@ -81,18 +81,18 @@ static void Comm_HandleSend()
 		}
 	}
 	else if (GET_BIT(g_triggersFlag,
-				DOOR_TRIGGER) != GET_BIT(g_transmitFlag, DOOR_TRIGGER))
+			DOOR_TRIGGER) != GET_BIT(g_transmitFlag, DOOR_TRIGGER))
+	{
+		TOGGLE_BIT(g_transmitFlag, DOOR_TRIGGER);
+		if (BIT_IS_SET(g_triggersFlag, DOOR_TRIGGER))
 		{
-			TOGGLE_BIT(g_transmitFlag, DOOR_TRIGGER);
-			if (BIT_IS_SET(g_triggersFlag, DOOR_TRIGGER))
-			{
-				UART_sendByte(DOOR_TRIGGERED);
-			}
-			else
-			{
-				UART_sendByte(DOOR_HANDLED);
-			}
+			UART_sendByte(DOOR_TRIGGERED);
 		}
+		else
+		{
+			UART_sendByte(DOOR_HANDLED);
+		}
+	}
 }
 
 static void Comm_HandleReceive(uint8 rData)
@@ -112,9 +112,9 @@ static void Comm_HandleReceive(uint8 rData)
 		CLEAR_BIT(g_settingsFlag, PANIC_MODE);
 		break;
 	case DISARM_ON:
-		INTERRUPT_disable();
-		SET_BIT(g_settingsFlag, DISARM_MODE);
-		setMode(NORMAL_LOCKED, 3);
+//		INTERRUPT_disable();
+//		SET_BIT(g_settingsFlag, DISARM_MODE);
+//		setMode(NORMAL_LOCKED, 3);
 		break;
 	case DISARM_OFF:
 		INTERRUPT_enable();
